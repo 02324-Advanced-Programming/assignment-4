@@ -42,7 +42,7 @@ public class Board extends Subject {
     public final int width;
 
     public final int height;
-
+    public int counter;
     public final String boardName;
 
     private Integer gameId;
@@ -214,5 +214,12 @@ public class Board extends Subject {
         // TODO V2: changed the status so that it shows the phase, the current player, and the current register
         return "Player = " + getCurrentPlayer().getName();
     }
-
+    public int getCounter() {
+        notifyChange();
+        return counter;
+    }
+    public void setCounter(int c) {
+        notifyChange();
+        counter = c;
+    }
 }
