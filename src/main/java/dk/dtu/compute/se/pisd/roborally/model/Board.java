@@ -141,6 +141,11 @@ public class Board extends Subject {
         }
     }
 
+    /**
+     * Returns the current step of the game.
+     *
+     * @return the current step
+     */
     public int getStep() {
         return step;
     }
@@ -212,12 +217,27 @@ public class Board extends Subject {
 
         // TODO V1: add the move count to the status message
         // TODO V2: changed the status so that it shows the phase, the current player, and the current register
-        return "Player = " + getCurrentPlayer().getName();
+        return "Player = " + getCurrentPlayer().getName()
+                + "\nStep = " + getStep();
     }
+
+    /**
+     * Returns the current counter value.
+     * This method also notifies observers of any change.
+     *
+     * @return the current counter value
+     */
     public int getCounter() {
         notifyChange();
         return counter;
     }
+
+    /**
+     * Sets the counter to the specified value and notifies observers of the change.
+     * This method also notifies observers of any change.
+     * 
+     * @param c the new value for the counter
+     */
     public void setCounter(int c) {
         notifyChange();
         counter = c;
