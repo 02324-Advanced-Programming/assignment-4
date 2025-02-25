@@ -119,9 +119,29 @@ public class Board extends Subject {
         }
     }
 
+    /**
+    *
+    * Returns the current player, i.e. of type Player.
+    * Contained in the Board property "current", so this is a part
+    * of the Board class; it is also accessed through that object type.
+    * @return the Board's current player.
+    * */
+
     public Player getCurrentPlayer() {
         return current;
     }
+
+    /**
+     *
+     * This function sets a new, current player and ensures that the player is
+     * actually a participant of the game currently played.
+     * @param player is the param that sets the Board-object's property
+     *               of the same name. It also has an internal check that
+     *               this player is a non-current player, and that
+     *               it is actually a participating player inside the game.
+     * @return Nothing, as we are merely setting the current player, and then
+     * notifying listeners that the change has happened.
+     */
 
     public void setCurrentPlayer(Player player) {
         if (player != this.current && players.contains(player)) {
@@ -209,6 +229,14 @@ public class Board extends Subject {
 
         return getSpace(x, y);
     }
+
+
+    /**
+     *
+     * This function returns a string representation - across two lines - of
+     * where a certain player is located currently on the board.
+     * @return A two-lined string of the player's status and position on board.
+     */
 
     public String getStatusMessage() {
         // this is actually a view aspect, but for making assignment V1 easy for

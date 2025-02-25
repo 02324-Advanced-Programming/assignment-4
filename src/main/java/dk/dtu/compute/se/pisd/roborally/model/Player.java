@@ -96,6 +96,16 @@ public class Player extends Subject {
         return space;
     }
 
+    /**
+     * Checks that the new space exists, and that it does not match the old space
+     * (so, actual new space),
+     * Also, we set null on the player on the old board and place it on the new board.
+     * Then ofc, broadcast the changes.
+     *
+     * @param space This space is a property of the player (so, a reference on the player
+     *              to the board/field), so the player sets its own field here.
+     * @return Nothing, as we are simply setting a new player-state. Also, broadcasts changes.
+     */
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&
