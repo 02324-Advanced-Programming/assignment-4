@@ -42,7 +42,7 @@ public class Board extends Subject {
     public final int width;
 
     public final int height;
-    public int counter;
+
     public final String boardName;
 
     private Integer gameId;
@@ -58,6 +58,8 @@ public class Board extends Subject {
     private int step = 0;
 
     private boolean stepMode;
+
+    private int counter;
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -119,29 +121,9 @@ public class Board extends Subject {
         }
     }
 
-    /**
-    *
-    * Returns the current player, i.e. of type Player.
-    * Contained in the Board property "current", so this is a part
-    * of the Board class; it is also accessed through that object type.
-    * @return the Board's current player.
-    * */
-
     public Player getCurrentPlayer() {
         return current;
     }
-
-    /**
-     *
-     * This function sets a new, current player and ensures that the player is
-     * actually a participant of the game currently played.
-     * @param player is the param that sets the Board-object's property
-     *               of the same name. It also has an internal check that
-     *               this player is a non-current player, and that
-     *               it is actually a participating player inside the game.
-     * @return Nothing, as we are merely setting the current player, and then
-     * notifying listeners that the change has happened.
-     */
 
     public void setCurrentPlayer(Player player) {
         if (player != this.current && players.contains(player)) {
@@ -161,11 +143,6 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * Returns the current step of the game.
-     *
-     * @return the current step
-     */
     public int getStep() {
         return step;
     }
@@ -230,43 +207,23 @@ public class Board extends Subject {
         return getSpace(x, y);
     }
 
-
-    /**
-     *
-     * This function returns a string representation - across two lines - of
-     * where a certain player is located currently on the board.
-     * @return A two-lined string of the player's status and position on board.
-     */
-
     public String getStatusMessage() {
         // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
         // status of the game
-        
+
+        // TODO V1: add the move count to the status message
         // TODO V2: changed the status so that it shows the phase, the current player, and the current register
         return "Player = " + getCurrentPlayer().getName()
-                + "\nStep = " + getStep();
+                + " Amount of steps: " + getCounter();
     }
 
-    /**
-     * Returns the current counter value.
-     * This method also notifies observers of any change.
-     *
-     * @return the current counter value
-     */
     public int getCounter() {
-        notifyChange();
         return counter;
     }
 
-    /**
-     * Sets the counter to the specified value and notifies observers of the change.
-     * This method also notifies observers of any change.
-     * 
-     * @param c the new value for the counter
-     */
-    public void setCounter(int c) {
+    public void setCounter(int counter) {
+        this.counter = counter;
         notifyChange();
-        counter = c;
     }
 }
