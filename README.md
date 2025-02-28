@@ -3,7 +3,7 @@
 # TODO
 A list of our todos
 * Implement UI to show the board elements like walls ie: 
-* Make a new board layout
+* Make a new board layout - Lauritz is working on this one.
   * Need to contain
     * Walls
     * conveyor belts facing different directions
