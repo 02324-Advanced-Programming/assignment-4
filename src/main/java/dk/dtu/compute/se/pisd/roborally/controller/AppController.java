@@ -51,42 +51,63 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
+    BoardFactory boardFactory = BoardFactory.getInstance();
+
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
 
     public void newGame() {
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
-        dialog.setTitle("Player number");
-        dialog.setHeaderText("Select number of players");
-        Optional<Integer> result = dialog.showAndWait();
 
-        if (result.isPresent()) {
-            if (gameController != null) {
-                // The UI should not allow this, but in case this happens anyway.
-                // give the user the option to save the game or abort this operation!
-                if (!stopGame()) {
-                    return;
-                }
-            }
+        // ask the user to select a board type
+        List<String> availableBoards = boardFactory.getBoardNames();
+//        var availableBoards = List.of("board1","board2");
+        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(availableBoards.get(0), availableBoards);
+        boardDialog.setTitle("Select Board");
+        boardDialog.setHeaderText("Choose a board type");
+        Optional<String> boardResult = boardDialog.showAndWait();
 
-            // XXX the board should eventually be created programmatically or loaded from a file
-            //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
-            gameController = new GameController(board);
-            int no = result.get();
-            for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
-
-            // XXX V2
-            gameController.startProgrammingPhase();
-
-            roboRally.createBoardView(gameController);
+        if (boardResult.isEmpty()) {
+            return; // User canceled the board selection
         }
+        String selectedBoard = boardResult.get();
+
+        //ask user for number of players
+        ChoiceDialog<Integer> playerDialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
+        playerDialog.setTitle("Player number");
+        playerDialog.setHeaderText("Select number of players");
+        Optional<Integer> playerResult = playerDialog.showAndWait();
+
+        if (playerResult.isEmpty()) {
+            return; // User canceled the player selection
+        }
+        int noOfPlayers = playerResult.get();
+
+        Board board = boardFactory.createBoard(selectedBoard);
+
+        if (gameController != null) {
+            // The UI should not allow this, but in case this happens anyway,
+            // give the user the option to save the game or abort this operation!
+            if (!stopGame()) {
+                return;
+            }
+        }
+
+        gameController = new GameController(board);
+
+        // Add players to the board
+        for (int i = 0; i < noOfPlayers; i++) {
+            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+            board.addPlayer(player);
+            player.setSpace(board.getSpace(i % board.width, i));
+        }
+
+        // Start the programming phase
+        gameController.startProgrammingPhase();
+
+        // Update the UI with the new board
+        roboRally.createBoardView(gameController);
     }
 
     public void saveGame() {
