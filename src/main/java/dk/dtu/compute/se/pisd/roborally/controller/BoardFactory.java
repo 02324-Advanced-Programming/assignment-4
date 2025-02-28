@@ -28,7 +28,7 @@ public class BoardFactory {
     }
 
     //the list of boards
-    static List<Board> boardList = new ArrayList<>();
+    private final List<String> availableBoardNames = List.of("default", "advanced");
 
     /**
      * Returns the single instance of this factory. The instance is lazily
@@ -44,12 +44,8 @@ public class BoardFactory {
     }
 
     //might need to check something for null
-    public static List<String> getBoardNames() {
-        List<String> boardNames = new ArrayList<>();
-        for(var board : boardList){
-            boardNames.add(board.boardName);
-        }
-        return Collections.unmodifiableList(boardNames);
+    public List<String> getBoardNames() {
+        return Collections.unmodifiableList(availableBoardNames);
     }
 
     /**
@@ -60,14 +56,15 @@ public class BoardFactory {
      * @return the new board corresponding to that name
      */
     public Board createBoard(String name) {
-        Board board;
-        if (name == null || name == "default") {
-            board = new Board(8,8, "default");
-            return createDefaultBoard(board);
-        } else {
-            board = new Board(8,8, name);
-            return createAdvancedBoard(board);
+        Board board = new Board(8, 8, name); // Create a basic board
 
+        switch (name) {
+            case "default":
+                return createDefaultBoard(board);
+            case "advanced":
+                return createAdvancedBoard(board);
+            default:
+                throw new IllegalArgumentException("Unknown board type: " + name);
         }
     }
 
