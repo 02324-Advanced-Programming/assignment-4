@@ -60,7 +60,7 @@ public class AppController implements Observer {
 
     public void newGame() {
 
-        // Step 1: Ask the user to select a board type
+        // ask the user to select a board type
         List<String> availableBoards = boardFactory.getBoardNames();
 //        var availableBoards = List.of("board1","board2");
         ChoiceDialog<String> boardDialog = new ChoiceDialog<>(availableBoards.get(0), availableBoards);
@@ -73,6 +73,7 @@ public class AppController implements Observer {
         }
         String selectedBoard = boardResult.get();
 
+        //ask user for number of players
         ChoiceDialog<Integer> playerDialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         playerDialog.setTitle("Player number");
         playerDialog.setHeaderText("Select number of players");
