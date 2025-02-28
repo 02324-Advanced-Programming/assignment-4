@@ -53,7 +53,7 @@ public class CheckPoint extends FieldAction{
      * Logic for the checkpoints. It checks whether the checkpoints have been collected in the correct order.
      * When the player reaches the last checkpoint correctly, the phase is changed to winner.
      * Missing:
-     * - Winner phase
+     * - Winner phase implementation for popup and when to check for winner status.
      *
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
