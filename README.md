@@ -13,12 +13,6 @@ A list of our todos
 * 
 
 And add JavaDoc to everything
-
-# DONE
-* Implement `BoardFactory()`
-  * Provides a list of all available board names as Strings
-  * Creates a new board for such a name, which is given as a parameter
-  * Then start the game when a user have chosen what board
 ```java
 /**
  * This is a function that returns the param as a string.
@@ -29,3 +23,9 @@ public static string myFunction(String pram) {
 return "This is the pram:" + pram;
 }
 ```
+
+# DONE
+* Implement `BoardFactory()`
+  * Provides a list of all available board names as Strings
+  * Creates a new board for such a name, which is given as a parameter
+  * Then start the game when a user have chosen what board
