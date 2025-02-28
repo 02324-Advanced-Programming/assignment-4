@@ -10,7 +10,17 @@ A list of our todos
     * Checkpoints with their number
 * Create class checkpoint that extends FieldAction (look at walls and conveyor belts for help)
 * Implement `updateView()`
-* 
+
+
+# DELEGATIONS
+* Ben: Checkpoints, winner-phase; 
+* Josh: Error/bug corrections, design, meta-stuff, refactoring, etc.; 
+* Laxmanan: To be assigned.... 
+* Rasmus: To be assigned...
+* Lauritz: Model/controller communication in-between etc; 
+* Kasper: All visuals, GUIs, updateView()-implementations etc.;
+
+Add below if anything extra is missing, so that we can assign it to people. 
 
 And add JavaDoc to everything
 ```java
