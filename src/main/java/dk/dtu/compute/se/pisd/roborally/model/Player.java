@@ -29,8 +29,10 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 /**
  * ...
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * Made changes to the player to implement checkpoint and winner features. New fields and methods were added.
  *
+ * @author Ekkart Kindler, ekki@dtu.dk
+ * @author s235444
  */
 public class Player extends Subject {
 
@@ -48,12 +50,18 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
+    private int collectedCP;
+    private boolean winner;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
         this.color = color;
 
         this.space = null;
+
+        collectedCP = 0;
+        winner = false;
 
         program = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < program.length; i++) {
@@ -143,4 +151,37 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    /**
+     * A method to check whether a player is a winner or not.
+     * @return boolean of winner status.
+     */
+    public boolean isWinner() {
+        return winner;
+    }
+
+    /**
+     * A method to set a player to have the winner status as true.
+     * @param player The player who is to be set as a winner.
+     */
+    public void setWinner(Player player) {
+        player.winner = true;
+    }
+
+
+    /**
+     * A method to get the players latest collected checkpoint.
+     * @return int of players highest value checkpoint.
+     */
+    public int getCollectedCP() {
+        return collectedCP;
+    }
+
+    /**
+     * A setter method for the players highest value collected checkpoint. It also calls notifyChange();
+     * @param CPNumber int wished to set the players highest checkpoint to.
+     */
+    public void setCollectedCP (int CPNumber) {
+        this.collectedCP = CPNumber;
+        notifyChange();
+    }
 }
