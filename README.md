@@ -56,20 +56,19 @@ cd </path/to/your/folder>
 ```bash
 git pull 
 ```
-
-* resolve any merge conflicts 
-
-* The above command will only work if you have correctly set the origin of the repo correctly 
-  * How to reset origin
+* if the above command doesn't work it is usually bc your local branch is not configured properly
+* first way to solve this issue is to specify which branch to pull from. If you do this then you have to specify the name of branch every time you pull  : 
 ```bash 
-git remote set-url origin <repo url>
+git pull origin <branch-name you want to pull from>
 ```
 
-* *How to add a new origin 
-``` bash
-git remote add origin <repo url>
-```
+* alternatively, 
+```bash 
+* git branch --set-upstream-to=origin/<branch name>```
+* if you do this then from now on you only need to run "git pull" without having to specify the branch name 
 
+
+* after pulling, resolve any merge conflicts 
 
 ### Branches :
 * see what branch you are currently on 
@@ -112,3 +111,14 @@ git push -u origin <branch name>
 git push
 ```
 * instead of having to write the -u origin etc 
+
+### more stuff 
+* if you have messed up your cloning with the wrong url or something you can reset the origin
+```bash 
+git remote set-url origin <repo url>
+```
+
+* *How to add a new origin
+``` bash
+git remote add origin <repo url>
+```
