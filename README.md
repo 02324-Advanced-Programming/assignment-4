@@ -39,3 +39,8 @@ public static string myFunction(String pram) {
   * Provides a list of all available board names as Strings
   * Creates a new board for such a name, which is given as a parameter
   * Then start the game when a user have chosen what board
+
+
+
+Also, if people have good/useful git commands for this project: 
+* Insert in here...
