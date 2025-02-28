@@ -4,9 +4,8 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * A factory for creating boards. The factory itself is implemented as a singleton.
@@ -24,12 +23,26 @@ public class BoardFactory {
     /**
      * Constructor for BoardFactory. It is private in order to make the factory a singleton.
      */
-    private BoardFactory() {
-    }
+//    private BoardFactory() {
+//    }
 
     //the list of boards
-    static List<Board> boardList = new ArrayList<>();
+//    private final List<String> availableBoardNames = List.of("default", "advanced");
 
+    private final Map<String, Function<Board, Board>> boardCreators = new HashMap<>();
+
+    private BoardFactory() {
+        registerBoard("default", board -> createDefaultBoard(board));
+        registerBoard("advanced", board -> createAdvancedBoard(board));
+    }
+
+    public void registerBoard(String name, Function<Board, Board> creator) {
+        boardCreators.put(name, creator);
+    }
+
+    public List<String> getBoardNames() {
+        return Collections.unmodifiableList(new ArrayList<>(boardCreators.keySet()));
+    }
     /**
      * Returns the single instance of this factory. The instance is lazily
      * instantiated when requested for the first time.
@@ -44,13 +57,9 @@ public class BoardFactory {
     }
 
     //might need to check something for null
-    public static List<String> getBoardNames() {
-        List<String> boardNames = new ArrayList<>();
-        for(var board : boardList){
-            boardNames.add(board.boardName);
-        }
-        return Collections.unmodifiableList(boardNames);
-    }
+//    public List<String> getBoardNames() {
+//        return Collections.unmodifiableList(availableBoardNames);
+//    }
 
     /**
      * Creates a new board of given name of a board, which indicates
@@ -60,15 +69,11 @@ public class BoardFactory {
      * @return the new board corresponding to that name
      */
     public Board createBoard(String name) {
-        Board board;
-        if (name == null || name == "default") {
-            board = new Board(8,8, "default");
-            return createDefaultBoard(board);
-        } else {
-            board = new Board(8,8, name);
-            return createAdvancedBoard(board);
-
+        Function<Board, Board> creator = boardCreators.get(name);
+        if (creator == null) {
+            throw new IllegalArgumentException("Unknown board type: " + name);
         }
+        return creator.apply(new Board(8, 8, name));
     }
 
     Board createDefaultBoard (Board board){
