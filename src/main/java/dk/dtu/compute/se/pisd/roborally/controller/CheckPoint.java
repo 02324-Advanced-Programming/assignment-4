@@ -51,11 +51,10 @@ public class CheckPoint extends FieldAction{
 
     /**
      * Logic for the checkpoints. It checks whether the checkpoints have been collected in the correct order.
-     * When the player reacehes the last checkpoint correctly, the phase is changed to winner.
-     *
+     * When the player reaches the last checkpoint correctly, the phase is changed to winner.
      * Missing:
-     * - Player methods for checkpoints
      * - Winner phase
+     *
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
      * @return
@@ -63,8 +62,8 @@ public class CheckPoint extends FieldAction{
     @Override
     public boolean doAction(GameController gameController, Space space) {
         Player player = space.getPlayer();
-        if (player.getCheckpointCounter() + 1 == checkPointNumber) {
-            player.setCheckpointCounter(checkPointNumber);
+        if (player.getCollectedCP() + 1 == checkPointNumber) {
+            player.setCollectedCP(checkPointNumber);
 
             if (lastCP) {
                 gameController.board.setPhase(Phase.WINNER);
