@@ -4,6 +4,10 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * A factory for creating boards. The factory itself is implemented as a singleton.
  *
@@ -23,6 +27,9 @@ public class BoardFactory {
     private BoardFactory() {
     }
 
+    //the list of boards
+    static List<Board> boardList = new ArrayList<>();
+
     /**
      * Returns the single instance of this factory. The instance is lazily
      * instantiated when requested for the first time.
@@ -36,6 +43,15 @@ public class BoardFactory {
         return instance;
     }
 
+    //might need to check something for null
+    public static List<String> getBoardNames() {
+        List<String> boardNames = new ArrayList<>();
+        for(var board : boardList){
+            boardNames.add(board.boardName);
+        }
+        return Collections.unmodifiableList(boardNames);
+    }
+
     /**
      * Creates a new board of given name of a board, which indicates
      * which type of board should be created. For now the name is ignored.
@@ -45,13 +61,19 @@ public class BoardFactory {
      */
     public Board createBoard(String name) {
         Board board;
-        if (name == null) {
-            board = new Board(8,8, "<none>");
+        if (name == null || name == "default") {
+            board = new Board(8,8, "default");
+            return createDefaultBoard(board);
         } else {
             board = new Board(8,8, name);
-        }
+            return createAdvancedBoard(board);
 
+        }
+    }
+
+    Board createDefaultBoard (Board board){
         // add some walls, actions and checkpoints to some spaces
+
         Space space = board.getSpace(0,0);
         space.getWalls().add(Heading.SOUTH);
         ConveyorBelt action  = new ConveyorBelt();
@@ -82,6 +104,51 @@ public class BoardFactory {
         space.getActions().add(action);
 
         return board;
+
+    }
+    Board createAdvancedBoard(Board board){
+        Space space = board.getSpace(0,0);
+        space.getWalls().add(Heading.SOUTH);
+        ConveyorBelt action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(1,0);
+        space.getWalls().add(Heading.NORTH);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(1,1);
+        space.getWalls().add(Heading.WEST);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.NORTH);
+        space.getActions().add(action);
+
+        space = board.getSpace(5,5);
+        space.getWalls().add(Heading.SOUTH);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(6,5);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+
+        space = board.getSpace(3,3);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.EAST);
+        space.getActions().add(action);
+
+
+        space = board.getSpace(4,6);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.NORTH);
+        space.getActions().add(action);
+        return board;
+
     }
 
 }

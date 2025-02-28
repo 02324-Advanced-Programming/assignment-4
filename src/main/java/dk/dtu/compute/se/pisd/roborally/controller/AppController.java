@@ -51,6 +51,8 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
+    BoardFactory boardFactory = BoardFactory.getInstance();
+
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;

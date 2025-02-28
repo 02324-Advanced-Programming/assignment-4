@@ -45,7 +45,8 @@ public class GameController {
      * @param space the space to which the current player should move
      */
     public void moveCurrentPlayerToSpace(@NotNull Space space)  {
-        if (space.getPlayer() == null && board.getCurrentPlayer() != null) {
+
+        if (space.getPlayer() == null && board.getCurrentPlayer() != null ) {
             space.setPlayer(board.getCurrentPlayer());
             board.setCounter(board.getCounter() + 1);
         }
