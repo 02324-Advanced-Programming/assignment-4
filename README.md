@@ -20,7 +20,7 @@ And add JavaDoc to everything
  * @return String with some text
  */
 public static string myFunction(String pram) {
-return "This is the pram:" + pram;
+ return "This is the pram:" + pram;
 }
 ```
 
