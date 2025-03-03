@@ -70,6 +70,11 @@ public class SpaceView extends StackPane implements ViewObserver {
         } else {
             this.setStyle("-fx-background-color: black;");
         }
+
+        /**
+         * the idea is that we only need to draw the walls and field actions once per game so
+         * that's why i drew it in the constructor of each spaceView object
+         * */
         drawWalls();
         drawFieldActions();
 
@@ -79,6 +84,14 @@ public class SpaceView extends StackPane implements ViewObserver {
         space.attach(this);
         update(space);
     }
+
+
+    /**
+     * Updates player's arrow on the screen based on their current state
+     * If player exists, create the arrow (if not created already)
+     * set colour and then update rotation of the arrow to point to the heading
+     * if player no longer exists then remove it from the screen
+     */
 
     private void updatePlayer() {
         Player player = space.getPlayer();
@@ -102,6 +115,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             playerArrow = null;
         }
     }
+
 
     private void drawWalls() {
         Pane pane = new Pane();
@@ -135,6 +149,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.getChildren().add(pane);
     }
 
+
+    /**
+     * draw all the field actions of each space based on it's type
+     */
     private void drawFieldActions() {
         Pane pane = new Pane();
 
