@@ -108,6 +108,13 @@ public class BoardFactory {
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
+        space = board.getSpace(4,2);
+        var checkPoint = new CheckPoint();
+        checkPoint.setCheckPointNumber(1);
+        space.getActions().add(checkPoint);
+
+
+
         return board;
 
     }
