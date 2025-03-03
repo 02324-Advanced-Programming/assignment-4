@@ -164,9 +164,14 @@ public class SpaceView extends StackPane implements ViewObserver {
                     drawConveyorBelt(pane, (ConveyorBelt) action);
                 }
             }
+
+            //  add the pane only if contains some actions
+            if (!pane.getChildren().isEmpty()) {
+                this.getChildren().add(pane);
+            }
         }
-        this.getChildren().add(pane);
     }
+
 
 
 
