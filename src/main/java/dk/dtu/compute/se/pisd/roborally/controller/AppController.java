@@ -47,7 +47,6 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<String> BOARD_NAMES = Arrays.asList("classic", "advanced");
 
     final private RoboRally roboRally;
 
@@ -69,30 +68,8 @@ public class AppController implements Observer {
         boardDialog.setHeaderText("Choose a board type");
         Optional<String> boardResult = boardDialog.showAndWait();
 
-<<<<<<< Updated upstream
         if (boardResult.isEmpty()) {
             return; // User canceled the board selection
-=======
-            // XXX the board should eventually be created programmatically or loaded from a file
-            //     here we just create an empty board with the required number of players.
-            ChoiceDialog<String> dialog2 = new ChoiceDialog<>(BOARD_NAMES.get(0), BOARD_NAMES);
-            dialog2.setTitle("Board type");
-            dialog2.setHeaderText("Select type of board");
-            Optional<String> result2 = dialog2.showAndWait();
-            Board board = new Board(8,8);
-            gameController = new GameController(board);
-            int no = result.get();
-            for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
-
-            // XXX V2
-            gameController.startProgrammingPhase();
-
-            roboRally.createBoardView(gameController);
->>>>>>> Stashed changes
         }
         String selectedBoard = boardResult.get();
 
