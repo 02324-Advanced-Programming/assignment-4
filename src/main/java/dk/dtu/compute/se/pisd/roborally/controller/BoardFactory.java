@@ -32,8 +32,8 @@ public class BoardFactory {
     private final Map<String, Function<Board, Board>> boardCreators = new HashMap<>();
 
     private BoardFactory() {
-        registerBoard("default", board -> createDefaultBoard(board));
-        registerBoard("advanced", board -> createAdvancedBoard(board));
+        registerBoard("Default", board -> createDefaultBoard(board));
+        registerBoard("Advanced", board -> createAdvancedBoard(board));
     }
 
     public void registerBoard(String name, Function<Board, Board> creator) {
@@ -141,18 +141,49 @@ public class BoardFactory {
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-
         space = board.getSpace(3,3);
         action  = new ConveyorBelt();
         action.setHeading(Heading.EAST);
         space.getActions().add(action);
 
-
-        space = board.getSpace(4,6);
+        space = board.getSpace(3,5);
         action  = new ConveyorBelt();
         action.setHeading(Heading.NORTH);
         space.getActions().add(action);
+
+        space = board.getSpace(3,4);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.NORTH);
+        space.getActions().add(action);
+
+        space = board.getSpace(6,3);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.SOUTH);
+        space.getActions().add(action);
+
+        space = board.getSpace(6,4);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.SOUTH);
+        space.getActions().add(action);
+
+        space = board.getSpace(4,3);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.EAST);
+        space.getActions().add(action);
+
+        space = board.getSpace(5,3);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.EAST);
+        space.getActions().add(action);
+
+        space = board.getSpace(4,5);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
         return board;
+
+
+
 
     }
 
