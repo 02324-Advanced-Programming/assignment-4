@@ -57,14 +57,16 @@ cd </path/to/your/folder>
 git pull 
 ```
 * if the above command doesn't work it is usually bc your local branch is not configured properly
-* first way to solve this issue is to specify which branch to pull from. If you do this then you have to specify the name of branch every time you pull  : 
+* first way to solve this issue is to specify which branch to pull from. 
+* If you do this then you have to specify the name of branch every time you pull: 
 ```bash 
 git pull origin <branch-name you want to pull from>
 ```
 
 * alternatively, 
 ```bash 
-* git branch --set-upstream-to=origin/<branch name>```
+* git branch --set-upstream-to=origin/<branch name>
+```
 * if you do this then from now on you only need to run "git pull" without having to specify the branch name 
 
 
