@@ -151,7 +151,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     /**
-     * draw all the field actions of each space based on it's type
+     * draw all the field actions of each space based on its type
      */
     private void drawFieldActions() {
         Pane pane = new Pane();

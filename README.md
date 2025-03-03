@@ -2,7 +2,9 @@
 
 # TODO
 
-
+# How to modify/create UI stuffs 
+* if you want to add an element to a board, create a Space object and add what you want to it (in BoardFactory)
+* Then use your Space object logic to create your UI components inside the Views (most likely SpaceView)
 
 # DELEGATIONS
 * Ben: Checkpoints, winner-phase; 
