@@ -1,15 +1,7 @@
 # Roborally
 
 # TODO
-A list of our todos
-* Implement UI to show the board elements like walls ie: 
-* Make a new board layout - Lauritz is working on this one.
-  * Need to contain
-    * Walls
-    * conveyor belts facing different directions
-    * Checkpoints with their number
-* Create class checkpoint that extends FieldAction (look at walls and conveyor belts for help)
-* Implement `updateView()`
+
 
 
 # DELEGATIONS
@@ -39,11 +31,15 @@ public static string myFunction(String pram) {
   * Provides a list of all available board names as Strings
   * Creates a new board for such a name, which is given as a parameter
   * Then start the game when a user have chosen what board
+* Implement UI to show the board elements like walls ie:
+* Make a new board layout - Lauritz is working on this one.
+  * Need to contain
+    * Walls
+    * conveyor belts facing different directions
+    * Checkpoints with their number
+* Create class checkpoint that extends FieldAction (look at walls and conveyor belts for help)
+* Implement `updateView()`
 
-
-
-Also, if people have good/useful git commands for this project: 
-* Insert in here...
 
 # GIT COMMANDS 
 * first make sure you are in the correct folder on your local device (do not put the < > when running commands)
