@@ -196,7 +196,7 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
-                case U_TURN:
+                case UTURN:
                     this.uturn(player);
                 case BACKWARD:
                     this.moveBackward(player);
@@ -211,9 +211,11 @@ public class GameController {
      * @param player the player which should be moved
      */
     public void moveForward(@NotNull Player player) {
-        Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
-        if (forward != null) {
-            player.setSpace(forward);
+        if (player.getSpace() != null) {
+            Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+            if (forward != null) {
+                player.setSpace(forward);
+            }
         }
     }
     /**
@@ -222,9 +224,11 @@ public class GameController {
      * @param player the player which should be moved
      */
     public void moveBackward(@NotNull Player player) {
-        Space backwards = this.board.getNeighbour(player.getSpace(), player.getHeading().next().next());
-        if (backwards != null) {
-            player.setSpace(backwards);
+        if (player.getSpace() != null) {
+            Space backwards = this.board.getNeighbour(player.getSpace(), player.getHeading().next().next());
+            if (backwards != null) {
+                player.setSpace(backwards);
+            }
         }
     }
     /**
@@ -241,9 +245,10 @@ public class GameController {
      * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
      *
      * @param player the player which should be moved
-     */    public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
+     */
+    public void fastForward(@NotNull Player player) {
+            moveForward(player);
+            moveForward(player);
     }
 
     /**

@@ -104,4 +104,24 @@ class GameControllerTest {
     }
 
     // TDOD and there should be more tests added for the different assignments eventually
+    @Test
+    void moveBackward() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+        Heading prev = current.getHeading();
+        current.setSpace(board.getSpace(1,1));
+        gameController.moveBackward(current);
+
+        Assertions.assertEquals(current, board.getSpace(1, 0).getPlayer(), "Player " + current.getName() + " should be at Space (1,0)!");
+        Assertions.assertEquals(prev, current.getHeading(), "The direction the player is moving shouldn't change");
+        Assertions.assertNull(board.getSpace(1, 1).getPlayer(), "Space (1,1) should be empty!");
+    }
+    @Test
+    void uturn() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+        Heading prev = current.getHeading();
+        gameController.uturn(current);
+        Assertions.assertEquals(prev.next().next(), current.getHeading(), "Player's direction should be reversed.");
+    }
 }
