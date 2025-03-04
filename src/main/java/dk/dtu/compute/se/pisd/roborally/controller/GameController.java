@@ -204,11 +204,13 @@ public class GameController {
     }
 
     public void moveForward(@NotNull Player player) {
-        if (player.getSpace() != null) {
-            Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
-            if (forward != null) {
-                player.setSpace(forward);
-            }
+        Space current = player.getSpace();
+        Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+        if (current.getWalls().equals(player.getHeading())) {
+            player.setSpace(current);
+        }
+        else {
+            player.setSpace(forward);
         }
     }
 
