@@ -203,7 +203,6 @@ public class GameController {
         }
     }
 
-    // TODO V2
     public void moveForward(@NotNull Player player) {
         if (player.getSpace() != null) {
             Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
@@ -213,26 +212,18 @@ public class GameController {
         }
     }
 
-    // TODO V2
     public void fastForward(@NotNull Player player) {
-        if (player.getSpace() != null) {
             moveForward(player);
             moveForward(player);
-        }
-
     }
 
-    // TODO V2
     public void turnRight(@NotNull Player player) {
-        if (player.getSpace() != null) {
-
-        }
+       player.setHeading(player.getHeading().next());
 
     }
 
-    // TODO V2
     public void turnLeft(@NotNull Player player) {
-
+        player.setHeading(player.getHeading().prev());
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
