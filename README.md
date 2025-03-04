@@ -16,6 +16,16 @@
 
 Add below if anything extra is missing, so that we can assign it to people. 
 
+Tasks for 4c:
+* implement the four existing commands in the corresponding 
+methods in class  GameController (according to the rules provided during class)
+* the three buttons, “Finish Programming”, “Execute Programm” and “Execute Current Register”
+Associate these buttons, with the correct methods in the GameController. And then check whether the robots’ programs 
+are now correctly executed when these buttons are pressed.
+* write some tests for each command (for movement operations there also must be a test when there is a wall blocking the movement).
+* At last, add commands and their implementing methods for move “backwards” and “U turn”, add tests and JavaDocs. Check also manually, whether these new commands 
+work properly.
+
 And add JavaDoc to everything
 ```java
 /**
