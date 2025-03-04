@@ -202,8 +202,11 @@ public class GameController {
             }
         }
     }
-
-    // TODO V2
+    /**
+     * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
     public void moveForward(@NotNull Player player) {
         Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
         if (forward != null) {
@@ -211,18 +214,29 @@ public class GameController {
         }
     }
 
-    // TODO V2
-    public void fastForward(@NotNull Player player) {
+    /**
+     * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */    public void fastForward(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
     }
 
-    // TODO V2
+    /**
+     * Turns the direction of the player clockwise 90 degrees on the current board.
+     *
+     * @param player the player which should be turned
+     */
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
     }
 
-    // TODO V2
+    /**
+     * Turns the direction of the player counter-clockwise 90 degrees on the current board.
+     *
+     * @param player the player which should be turned
+     */
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
     }
