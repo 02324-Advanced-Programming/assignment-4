@@ -45,10 +45,6 @@ class GameControllerTest {
 
         Assertions.assertEquals(player, board.getSpace(0, 4).getPlayer(), "Player " + player.getName() + " should be on Space (0,4)!");
     }
-
-    /*
-        The following tests should be used later for assignment V2
-
     @Test
     void moveCurrentPlayerToSpace() {
         Board board = gameController.board;
@@ -73,9 +69,40 @@ class GameControllerTest {
         Assertions.assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
         Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
     }
+    @Test
+    void turnLeft() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+        current.setSpace(board.getSpace(1,1));
+        Heading prev = current.getHeading();
+        gameController.turnLeft(current);
 
-     */
+        Assertions.assertEquals(current, board.getSpace(1, 1).getPlayer(), "Player " + current.getName() + " should beSpace (1,1)!");
+        Assertions.assertEquals(prev.prev(), current.getHeading(), "Player " + current.getName() +  "should be heading" + prev.prev());
+    }
+    @Test
+    void turnRight() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+        current.setSpace(board.getSpace(1,1));
+        Heading prev = current.getHeading();
+        gameController.turnLeft(current);
+
+        Assertions.assertEquals(current, board.getSpace(1, 1).getPlayer(), "Player " + current.getName() + " should beSpace (1,1)!");
+        Assertions.assertEquals(prev.prev(), current.getHeading(), "Player " + current.getName() +  "should be heading" + prev.next());
+    }
+    void fastForward() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+
+        gameController.moveForward(current);
+
+        Assertions.assertEquals(current, board.getSpace(0, 1).getPlayer(), "Player " + current.getName() + " should beSpace (0,1)!");
+        Assertions.assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
+        Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
+    }
+
+
 
     // TDOD and there should be more tests added for the different assignments eventually
-
 }
