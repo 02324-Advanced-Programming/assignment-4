@@ -62,8 +62,7 @@ public class GameController {
         //     message needs to be implemented at another place)
 
     }
-
-    // XXX V2
+    
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -85,15 +84,13 @@ public class GameController {
             }
         }
     }
-
-    // XXX V2
+    
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
-
-    // XXX V2
+    
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -101,8 +98,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
-
-    // XXX V2
+    
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -112,8 +108,7 @@ public class GameController {
             }
         }
     }
-
-    // XXX V2
+    
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -123,27 +118,23 @@ public class GameController {
             }
         }
     }
-
-    // XXX V2
+    
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
     }
-
-    // XXX V2
+    
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
     }
-
-    // XXX V2
+    
     private void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
-
-    // XXX V2
+    
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -176,8 +167,7 @@ public class GameController {
             assert false;
         }
     }
-
-    // XXX V2
+    
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
