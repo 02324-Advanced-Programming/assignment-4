@@ -130,6 +130,7 @@ public class BoardFactory {
         space.getWalls().add(Heading.WEST);
         var checkPoint4 = new CheckPoint();
         checkPoint4.setCheckPointNumber(4);
+        checkPoint4.setLastCP(true);
         space.getActions().add(checkPoint4);
 
         space = board.getSpace(0,3);
@@ -237,6 +238,7 @@ public class BoardFactory {
         space.getWalls().add(Heading.NORTH);
         var checkPoint4 = new CheckPoint();
         checkPoint4.setCheckPointNumber(4);
+        checkPoint4.setLastCP(true);
         space.getActions().add(checkPoint4);
 
         space = board.getSpace(0,4);
