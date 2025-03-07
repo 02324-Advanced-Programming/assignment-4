@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+
 /**
  * ...
  *
@@ -188,8 +189,10 @@ public class GameController {
                     break;
                 case UTURN:
                     this.uturn(player);
+                    break;
                 case BACKWARD:
                     this.moveBackward(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
@@ -201,28 +204,37 @@ public class GameController {
      * @param player the player which should be moved
      */
     public void moveForward(@NotNull Player player) {
-        Space current = player.getSpace();
-        Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
-        Heading heading = player.getHeading();
-        Heading oppositeHeading = player.getHeading().next().next();
+        if (player.board == board) {
+            Space current = player.getSpace();
+            Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+            Heading heading = player.getHeading();
+            Heading oppositeHeading = player.getHeading().next().next();
             if (forward != null && !current.getWalls().contains(heading) &&
-                    !forward.getWalls().contains(oppositeHeading) && forward.getPlayer() == null) {
-                player.setSpace(forward);
-            } else {
-                player.setSpace(current);
+                    !forward.getWalls().contains(oppositeHeading)) {
+                try {
+                    moveToSpace(player, forward, heading);
+                } catch (ImpossibleMoveException e) {
+                    player.setSpace(current);
+                }
+            }
         }
     }
+
     /**
      * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
      *
      * @param player the player which should be moved
      */
     public void moveBackward(@NotNull Player player) {
-        if (player.getSpace() != null) {
-            Space backwards = this.board.getNeighbour(player.getSpace(), player.getHeading().next().next());
-            if (backwards != null) {
-                player.setSpace(backwards);
-            }
+        Space current = player.getSpace();
+        Heading heading = player.getHeading();
+        Heading oppositeHeading = player.getHeading().next().next();
+        Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
+        if (backward != null && !current.getWalls().contains(oppositeHeading) &&
+                !backward.getWalls().contains(heading) && backward.getPlayer() == null) {
+            player.setSpace(backward);
+        } else {
+            player.setSpace(current);
         }
     }
     /**
@@ -282,6 +294,27 @@ public class GameController {
     public void notImplemented() {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
+    }
+
+    public void moveToSpace(@NotNull Player pusher,
+                            @NotNull Space space,
+                            @NotNull Heading heading) throws ImpossibleMoveException {
+        //assert board.getNeighbour(pusher.getSpace(), heading) == space;
+        Player pushed = space.getPlayer();
+        if (pushed != null) {
+            Space nextSpace = board.getNeighbour(space, heading);
+            if (nextSpace != null) {
+                moveToSpace(pushed, nextSpace, heading);
+                // assert space.getPlayer() == null : "Space player wants ain't free";
+            } else {
+                throw new ImpossibleMoveException(pusher, space, heading);
+            }
+        }
+        pusher.setSpace(space);
+    }
+    public class ImpossibleMoveException extends Throwable {
+        public ImpossibleMoveException(@NotNull Player pusher, @NotNull Space space, @NotNull Heading heading) {
+        }
     }
 
 }
