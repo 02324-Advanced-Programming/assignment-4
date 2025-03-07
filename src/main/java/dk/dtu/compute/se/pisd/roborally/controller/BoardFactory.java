@@ -113,7 +113,20 @@ public class BoardFactory {
         checkPoint.setCheckPointNumber(1);
         space.getActions().add(checkPoint);
 
+        space = board.getSpace(2,6);
+        var checkPoint2 = new CheckPoint();
+        checkPoint2.setCheckPointNumber(2);
+        space.getActions().add(checkPoint2);
 
+        space = board.getSpace(1,4);
+        var checkPoint3 = new CheckPoint();
+        checkPoint3.setCheckPointNumber(3);
+        space.getActions().add(checkPoint3);
+
+        space = board.getSpace(5,3);
+        var checkPoint4 = new CheckPoint();
+        checkPoint4.setCheckPointNumber(4);
+        space.getActions().add(checkPoint4);
 
         return board;
 
