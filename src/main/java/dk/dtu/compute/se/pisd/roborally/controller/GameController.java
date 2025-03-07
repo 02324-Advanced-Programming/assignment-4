@@ -211,11 +211,15 @@ public class GameController {
      * @param player the player which should be moved
      */
     public void moveForward(@NotNull Player player) {
-        if (player.getSpace() != null) {
-            Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
-            if (forward != null) {
+        Space current = player.getSpace();
+        Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+        Heading heading = player.getHeading();
+        Heading oppositeHeading = player.getHeading().next().next();
+            if (forward != null && !current.getWalls().contains(heading) &&
+                    !forward.getWalls().contains(oppositeHeading) && forward.getPlayer() == null) {
                 player.setSpace(forward);
-            }
+            } else {
+                player.setSpace(current);
         }
     }
     /**
