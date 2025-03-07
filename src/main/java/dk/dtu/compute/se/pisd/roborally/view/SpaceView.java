@@ -71,10 +71,10 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
-        /**
-         * the idea is that we only need to draw the walls and field actions once per game so
-         * that's why i drew it in the constructor of each spaceView object
-         * */
+        /*
+           The idea is that we only need to draw the walls and field actions once per game so
+           that's why i drew it in the constructor of each spaceView object
+           */
         drawWalls();
         drawFieldActions();
 

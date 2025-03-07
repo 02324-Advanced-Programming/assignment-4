@@ -62,8 +62,7 @@ public class GameController {
         //     message needs to be implemented at another place)
 
     }
-
-    // XXX V2
+    
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -85,15 +84,13 @@ public class GameController {
             }
         }
     }
-
-    // XXX V2
+    
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
-
-    // XXX V2
+    
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -101,8 +98,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
-
-    // XXX V2
+    
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -112,8 +108,7 @@ public class GameController {
             }
         }
     }
-
-    // XXX V2
+    
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -123,27 +118,23 @@ public class GameController {
             }
         }
     }
-
-    // XXX V2
+    
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
     }
-
-    // XXX V2
+    
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
     }
-
-    // XXX V2
+    
     private void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
-
-    // XXX V2
+    
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -176,14 +167,12 @@ public class GameController {
             assert false;
         }
     }
-
-    // XXX V2
+    
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
-
             switch (command) {
                 case FORWARD:
                     this.moveForward(player);
@@ -197,30 +186,81 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+                case UTURN:
+                    this.uturn(player);
+                case BACKWARD:
+                    this.moveBackward(player);
                 default:
                     // DO NOTHING (for now)
             }
         }
     }
-
-    // TODO V2
+    /**
+     * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
     public void moveForward(@NotNull Player player) {
-
+        Space current = player.getSpace();
+        Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+        Heading heading = player.getHeading();
+        Heading oppositeHeading = player.getHeading().next().next();
+            if (forward != null && !current.getWalls().contains(heading) &&
+                    !forward.getWalls().contains(oppositeHeading) && forward.getPlayer() == null) {
+                player.setSpace(forward);
+            } else {
+                player.setSpace(current);
+        }
+    }
+    /**
+     * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void moveBackward(@NotNull Player player) {
+        if (player.getSpace() != null) {
+            Space backwards = this.board.getNeighbour(player.getSpace(), player.getHeading().next().next());
+            if (backwards != null) {
+                player.setSpace(backwards);
+            }
+        }
+    }
+    /**
+     * Reverses the Heading of the given player on the current board.
+     *
+     * @param player The player, whose direction should be changed.
+     */
+    public void uturn(@NotNull Player player) {
+        player.setHeading(player.getHeading().next().next());
     }
 
-    // TODO V2
+
+    /**
+     * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
     public void fastForward(@NotNull Player player) {
-
+            moveForward(player);
+            moveForward(player);
     }
 
-    // TODO V2
+    /**
+     * Turns the direction of the player clockwise 90 degrees on the current board.
+     *
+     * @param player the player which should be turned
+     */
     public void turnRight(@NotNull Player player) {
-
+        player.setHeading(player.getHeading().next());
     }
 
-    // TODO V2
+    /**
+     * Turns the direction of the player counter-clockwise 90 degrees on the current board.
+     *
+     * @param player the player which should be turned
+     */
     public void turnLeft(@NotNull Player player) {
-
+        player.setHeading(player.getHeading().prev());
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
