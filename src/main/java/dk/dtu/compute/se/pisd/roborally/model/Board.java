@@ -225,10 +225,13 @@ public class Board extends Subject {
                 x = (x + 1) % width;
                 break;
         }
-
-        return getSpace(x, y);
+        Space neighbour = getSpace(x, y);
+        if (neighbour != null && !space.getWalls().contains(heading) &&
+            !neighbour.getWalls().contains(heading.next().next())) {
+            return neighbour;
+        }
+        return null;
     }
-
     /**
      *
      * This function returns a string representation - across two lines - of
