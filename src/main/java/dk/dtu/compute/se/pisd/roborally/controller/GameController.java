@@ -236,8 +236,10 @@ public class GameController {
                         break;
                     case UTURN:
                         this.uturn(player);
+                        break;
                     case BACKWARD:
                         this.moveBackward(player);
+                        break;
                     default:
                         // DO NOTHING (for now)
                 }
@@ -256,9 +258,12 @@ public class GameController {
             if (forward != null && !current.getWalls().contains(heading) &&
                     !forward.getWalls().contains(oppositeHeading) && forward.getPlayer() == null) {
                 player.setSpace(forward);
-            } else {
-                player.setSpace(current);
             }
+
+            //the else block does nothing.
+//            else {
+//                player.setSpace(current);
+//            }
         }
         /**
          * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
@@ -280,6 +285,7 @@ public class GameController {
          */
         public void uturn (@NotNull Player player){
             player.setHeading(player.getHeading().next().next());
+
         }
 
 
