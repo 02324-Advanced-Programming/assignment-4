@@ -72,18 +72,18 @@ class BoardTest {
         Assertions.assertEquals(2,testBoard.getGameId(), errorMess_wrongRes);
     }
 
-    /*
+
     @SuppressWarnings("null")
     @Test
     void testGetGameId_null() {
 
-        int testval1;
+        int testval1 = -2;
         String errorMess_wrongRes = "testGame has gameid null; has to have value.";
         Board testBoard = setupBoard();
         testBoard.setGameId(testval1);
 
-        Assertions.assertEquals(null,testBoard.getGameId(), errorMess_wrongRes);
-    }*/
+        Assertions.assertThrows (Exception.class("ExceptionIndexOutOfBounds"),testBoard.getGameId(), errorMess_wrongRes);
+    }
 
     //public Integer getGameId() - Done
 
