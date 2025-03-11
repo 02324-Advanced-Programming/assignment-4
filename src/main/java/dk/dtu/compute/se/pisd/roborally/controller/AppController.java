@@ -111,11 +111,11 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        // TODO V4a: needs to be implemented
+        // TODO Vxa: needs to be implemented
     }
 
     public void loadGame() {
-        // TODO V4a: needs to be implemented
+        // TODO Vxa: needs to be implemented
         // for now, we just create a new game
         if (gameController == null) {
             newGame();

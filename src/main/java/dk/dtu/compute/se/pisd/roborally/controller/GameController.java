@@ -29,7 +29,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -45,16 +44,16 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
 
-        if (space.getPlayer() == null && board.getCurrentPlayer() != null ) {
+        if (space.getPlayer() == null && board.getCurrentPlayer() != null) {
             space.setPlayer(board.getCurrentPlayer());
             board.setCounter(board.getCounter() + 1);
         }
-        int nextPlayer = (board.getPlayerNumber(board.getCurrentPlayer()) +1) % board.getPlayersNumber();
+        int nextPlayer = (board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber();
         board.setCurrentPlayer(board.getPlayer(nextPlayer));
     }
-    
+
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -76,13 +75,13 @@ public class GameController {
             }
         }
     }
-    
+
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
-    
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -90,7 +89,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
-    
+
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -100,7 +99,7 @@ public class GameController {
             }
         }
     }
-    
+
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -110,23 +109,23 @@ public class GameController {
             }
         }
     }
-    
+
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
     }
-    
+
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
     }
-    
+
     private void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
-    
+
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -159,7 +158,7 @@ public class GameController {
             assert false;
         }
     }
-    
+
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -179,7 +178,7 @@ public class GameController {
                     this.fastForward(player);
                     break;
                 case UTURN:
-                    this.uturn(player);
+                    this.uTurn(player);
                     break;
                 case BACKWARD:
                     this.moveBackward(player);
@@ -189,6 +188,7 @@ public class GameController {
             }
         }
     }
+
     /**
      * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
      *
@@ -207,110 +207,106 @@ public class GameController {
         }
     }
 
-        /**
-         * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-         *
-         * @param player the player which should be moved
-         */
-        public void moveBackward (@NotNull Player player) {
-            if (player.board == board) {
-                Heading heading = player.getHeading();
-                Heading oppositeHeading = player.getHeading().next().next();
-                Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
-                if (backward != null) {
-                    try {
-                        moveToSpace(player, backward, oppositeHeading);
-                    } catch (ImpossibleMoveException e) {
-                    }
+    /**
+     * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void moveBackward(@NotNull Player player) {
+        if (player.board == board) {
+            Heading heading = player.getHeading();
+            Heading oppositeHeading = player.getHeading().next().next();
+            Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
+            if (backward != null) {
+                try {
+                    moveToSpace(player, backward, oppositeHeading);
+                } catch (ImpossibleMoveException e) {
                 }
             }
         }
+    }
 
-        /**
-         * Reverses the Heading of the given player on the current board.
-         *
-         * @param player The player, whose direction should be changed.
-         */
-        public void uturn (@NotNull Player player){
-            player.setHeading(player.getHeading().next().next());
+    /**
+     * Reverses the Heading of the given player on the current board.
+     *
+     * @param player The player, whose direction should be changed.
+     */
+    public void uTurn(@NotNull Player player) {
+        player.setHeading(player.getHeading().next().next());
+    }
+
+
+    /**
+     * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void fastForward(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+    }
+
+    /**
+     * Turns the direction of the player clockwise 90 degrees on the current board.
+     *
+     * @param player the player which should be turned
+     */
+    public void turnRight(@NotNull Player player) {
+        player.setHeading(player.getHeading().next());
+    }
+
+    /**
+     * Turns the direction of the player counter-clockwise 90 degrees on the current board.
+     *
+     * @param player the player which should be turned
+     */
+    public void turnLeft(@NotNull Player player) {
+        player.setHeading(player.getHeading().prev());
+    }
+
+    public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
+        CommandCard sourceCard = source.getCard();
+        CommandCard targetCard = target.getCard();
+        if (sourceCard != null && targetCard == null) {
+            target.setCard(sourceCard);
+            source.setCard(null);
+            return true;
+        } else {
+            return false;
         }
+    }
 
-
-        /**
-         * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-         *
-         * @param player the player which should be moved
-         */
-        public void fastForward (@NotNull Player player){
-            moveForward(player);
-            moveForward(player);
-        }
-
-        /**
-         * Turns the direction of the player clockwise 90 degrees on the current board.
-         *
-         * @param player the player which should be turned
-         */
-        public void turnRight (@NotNull Player player){
-            player.setHeading(player.getHeading().next());
-        }
-
-        /**
-         * Turns the direction of the player counter-clockwise 90 degrees on the current board.
-         *
-         * @param player the player which should be turned
-         */
-        public void turnLeft (@NotNull Player player){
-            player.setHeading(player.getHeading().prev());
-        }
-
-        public boolean moveCards (@NotNull CommandCardField source, @NotNull CommandCardField target){
-            CommandCard sourceCard = source.getCard();
-            CommandCard targetCard = target.getCard();
-            if (sourceCard != null && targetCard == null) {
-                target.setCard(sourceCard);
-                source.setCard(null);
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        /**
-         * A method called when no corresponding controller operation is implemented yet.
-         * This should eventually be removed.
-         */
-        public void notImplemented () {
-            // XXX just for now to indicate that the actual method is not yet implemented
-            assert false;
-        }
+    /**
+     * A method called when no corresponding controller operation is implemented yet.
+     * This should eventually be removed.
+     */
+    public void notImplemented() {
+        // XXX just for now to indicate that the actual method is not yet implemented
+        assert false;
+    }
 
     /**
      * A recursive method that when moving into another player pushes them in the given direction if the next space is available.
-     * @param pusher the player who's moving card is being used
-     * @param space the space we want to move into
+     *
+     * @param pusher  the player who's moving card is being used
+     * @param space   the space we want to move into
      * @param heading the direction in which the player is moving
-     * @throws ImpossibleMoveException
+     * @throws ImpossibleMoveException If the move is impossible it throws an exception
      */
-        public void moveToSpace (@NotNull Player pusher,
-                                 @NotNull Space space,
-                                 @NotNull Heading heading) throws ImpossibleMoveException {
-            //assert board.getNeighbour(pusher.getSpace(), heading) == space;
-            Player pushed = space.getPlayer();
-            if (pushed != null) {
-                Space nextSpace = board.getNeighbour(space, heading);
-                if (nextSpace != null) {
-                    moveToSpace(pushed, nextSpace, heading);
-                    // assert space.getPlayer() == null : "Space player wants ain't free";
-                } else {
-                    throw new ImpossibleMoveException(pusher, space, heading);
-                }
-            }
-            pusher.setSpace(space);
-        }
-
-        public class ImpossibleMoveException extends Throwable {
-            public ImpossibleMoveException(@NotNull Player pusher, @NotNull Space space, @NotNull Heading heading) {
+    public void moveToSpace(@NotNull Player pusher,
+                            @NotNull Space space,
+                            @NotNull Heading heading) throws ImpossibleMoveException {
+        //assert board.getNeighbour(pusher.getSpace(), heading) == space;
+        Player pushed = space.getPlayer();
+        if (pushed != null) {
+            Space nextSpace = board.getNeighbour(space, heading);
+            if (nextSpace != null) {
+                moveToSpace(pushed, nextSpace, heading);
+                // assert space.getPlayer() == null : "Space player wants ain't free";
+            } else {
+                throw new ImpossibleMoveException(pusher, space, heading);
             }
         }
+        pusher.setSpace(space);
+    }
 }

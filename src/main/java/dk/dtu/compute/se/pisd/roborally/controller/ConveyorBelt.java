@@ -21,17 +21,19 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
+
+import javax.print.attribute.standard.PrinterMakeAndModel;
 
 /**
  * This class represents a conveyor belt on a space.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
-// XXX A3
 public class ConveyorBelt extends FieldAction {
 
     private Heading heading;
@@ -46,14 +48,21 @@ public class ConveyorBelt extends FieldAction {
     }
 
     /**
-     * Implementation of the action of a conveyor belt. Needs to be implemented for A3.
+     * Write what do here :D
      */
     @Override
-    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO A3: needs to be implemented
-        // ...
-
-        return false;
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) throws ImpossibleMoveException {
+        Player player = space.getPlayer();
+        // TODO: Test if this is necessary 
+        //Heading heading = getHeading();
+        
+        Space nextSpace = gameController.board.getNeighbour(space, heading);
+        if (nextSpace != null) {
+            gameController.moveToSpace(player, space, heading);
+            return true;
+        } else {
+            throw new ImpossibleMoveException(player, space, heading);
+        }
     }
 
 }
