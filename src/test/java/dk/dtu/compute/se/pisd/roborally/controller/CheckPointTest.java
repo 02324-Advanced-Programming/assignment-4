@@ -14,31 +14,6 @@ class CheckPointTest {
 
     private GameController gameController;
 
-    //@Test
-    /*void moveCurrentPlayerToSpace() {
-        Board board = gameController.board;
-        Player player1 = board.getPlayer(0);
-        Player player2 = board.getPlayer(1);
-
-        gameController.moveCurrentPlayerToSpace(board.getSpace(0, 4));
-
-        Assertions.assertEquals(player1, board.getSpace(0, 4).getPlayer(), "Player " + player1.getName() + " should beSpace (0,4)!");
-        Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
-        Assertions.assertEquals(player2, board.getCurrentPlayer(), "Current player should be " + player2.getName() +"!");
-    }*/
-
-    //@Test
-    /*void moveForward() {
-        Board board = gameController.board;
-        Player current = board.getCurrentPlayer();
-
-        gameController.moveForward(current);
-
-        Assertions.assertEquals(current, board.getSpace(0, 1).getPlayer(), "Player " + current.getName() + " should beSpace (0,1)!");
-        Assertions.assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
-        Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
-    }*/
-
 
     @Test
     void testCheckPointNumber() {
@@ -55,14 +30,6 @@ class CheckPointTest {
         CheckPoint cp1 = new CheckPoint(); cp1.setLastCP(true);cp1.setCheckPointNumber(8);
         Assertions.assertEquals(true,cp1.getLastCP(8),"Not the right last one.");
     }
-
-    /*public boolean getLastCP(int checkPointNumber) {
-        return lastCP;
-    }*/
-
-    /*public void setCheckPointNumber(int checkPointNumber) {
-        this.checkPointNumber = checkPointNumber;
-    }*/
 
     @Test
     void testSetLastCP() {
@@ -81,11 +48,5 @@ class CheckPointTest {
         CheckPoint cp1 = new CheckPoint(); cp1.doAction(gc,sp);
         Assertions.assertEquals(false,cp1.getLastCP(5),"Not the final space one.");
     }
-
-    /*public void setLastCP(boolean lastCP) {
-        this.lastCP = lastCP;
-    }*/
-
-    /*public boolean doAction(GameController gameController, Space space) {}*/
 
 }
