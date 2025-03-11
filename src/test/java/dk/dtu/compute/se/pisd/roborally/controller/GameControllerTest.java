@@ -117,11 +117,11 @@ class GameControllerTest {
         Assertions.assertNull(board.getSpace(1, 1).getPlayer(), "Space (1,1) should be empty!");
     }
     @Test
-    void uturn() {
+    void uTurn() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
         Heading prev = current.getHeading();
-        gameController.uturn(current);
+        gameController.uTurn(current);
         Assertions.assertEquals(prev.next().next(), current.getHeading(), "Player's direction should be reversed.");
     }
 }

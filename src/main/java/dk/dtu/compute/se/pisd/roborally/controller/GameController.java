@@ -26,11 +26,11 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -54,15 +54,6 @@ public class GameController {
         }
         int nextPlayer = (board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber();
         board.setCurrentPlayer(board.getPlayer(nextPlayer));
-        // TODO V1: method should be implemented by the students:
-        //   - the current player should be moved to the given space
-        //     (if it is free())
-        //   - and the current player should be set to the player
-        //     following the current player
-        //   - the counter of moves in the game should be increased by one
-        //     if and when the player is moved (the counter and the status line
-        //     message needs to be implemented at another place)
-
     }
 
     public void startProgrammingPhase() {
@@ -181,117 +172,94 @@ public class GameController {
         }
     }
 
-    /**
-     * This is a method used to execute the actions of fields. An example could be Checkpoints.
-     *
-     * @author s235444
-     */
-    private void executeFieldActions() {
-        for (int x = 0; x < board.getPlayersNumber(); x++) {
-            Player player = board.getPlayer(x);
-            Space space = player.getSpace();
 
-            for (FieldAction action : space.getActions()) {
-                action.doAction(this, space);
-
-                if (board.getPhase() != Phase.ACTIVATION) {
+    private void executeCommand(@NotNull Player player, Command command) {
+        if (player.board == board && command != null) {
+            // XXX This is a very simplistic way of dealing with some basic cards and
+            //     their execution. This should eventually be done in a more elegant way
+            //     (this concerns the way cards are modelled as well as the way they are executed).
+            switch (command) {
+                case FORWARD:
+                    this.moveForward(player);
                     break;
+                case RIGHT:
+                    this.turnRight(player);
+                    break;
+                case LEFT:
+                    this.turnLeft(player);
+                    break;
+                case FAST_FORWARD:
+                    this.fastForward(player);
+                    break;
+                case UTURN:
+                    this.uTurn(player);
+                    break;
+                case BACKWARD:
+                    this.moveBackward(player);
+                    break;
+                default:
+                    // DO NOTHING (for now)
+            }
+        }
+    }
+
+    /**
+     * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void moveForward(@NotNull Player player) {
+        if (player.board == board) {
+            Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+            Heading heading = player.getHeading();
+            if (forward != null) {
+                try {
+                    moveToSpace(player, forward, heading);
+                } catch (ImpossibleMoveException e) {
                 }
             }
         }
     }
 
-        /**
-         This method is used to create a popup declaring who is the Winner of the game.
-         @author s235444
-          * @param message is a string which declares the winner.
-         */
-        private void displayPopup(String message){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("GAME OVER THERE IS A WINNER");
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.setAlwaysOnTop(true);
-            alert.showAndWait();
-        }
-
-        private void executeCommand(@NotNull Player player, Command command){
-            if (player.board == board && command != null) {
-                // XXX This is a very simplistic way of dealing with some basic cards and
-                //     their execution. This should eventually be done in a more elegant way
-                //     (this concerns the way cards are modelled as well as the way they are executed).
-                switch (command) {
-                    case FORWARD:
-                        this.moveForward(player);
-                        break;
-                    case RIGHT:
-                        this.turnRight(player);
-                        break;
-                    case LEFT:
-                        this.turnLeft(player);
-                        break;
-                    case FAST_FORWARD:
-                        this.fastForward(player);
-                        break;
-                    case UTURN:
-                        this.uturn(player);
-                    case BACKWARD:
-                        this.moveBackward(player);
-                    default:
-                        // DO NOTHING (for now)
-                }
-            }
-        }
-        /**
-         * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-         *
-         * @param player the player which should be moved
-         */
-        public void moveForward (@NotNull Player player){
-            Space current = player.getSpace();
-            Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+    /**
+     * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void moveBackward(@NotNull Player player) {
+        if (player.board == board) {
             Heading heading = player.getHeading();
             Heading oppositeHeading = player.getHeading().next().next();
-            if (forward != null && !current.getWalls().contains(heading) &&
-                    !forward.getWalls().contains(oppositeHeading) && forward.getPlayer() == null) {
-                player.setSpace(forward);
-            } else {
-                player.setSpace(current);
-            }
-        }
-        /**
-         * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-         *
-         * @param player the player which should be moved
-         */
-        public void moveBackward (@NotNull Player player){
-            if (player.getSpace() != null) {
-                Space backwards = this.board.getNeighbour(player.getSpace(), player.getHeading().next().next());
-                if (backwards != null) {
-                    player.setSpace(backwards);
+            Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
+            if (backward != null) {
+                try {
+                    moveToSpace(player, backward, oppositeHeading);
+                } catch (ImpossibleMoveException e) {
                 }
             }
         }
-        /**
-         * Reverses the Heading of the given player on the current board.
-         *
-         * @param player The player, whose direction should be changed.
-         */
-        public void uturn (@NotNull Player player){
-            player.setHeading(player.getHeading().next().next());
-        }
+    }
+
+    /**
+     * Reverses the Heading of the given player on the current board.
+     *
+     * @param player The player, whose direction should be changed.
+     */
+    public void uTurn(@NotNull Player player) {
+        player.setHeading(player.getHeading().next().next());
+    }
 
 
-        /**
-         * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-         *
-         * @param player the player which should be moved
-         */
-        public void fastForward (@NotNull Player player){
-            moveForward(player);
-            moveForward(player);
-        }
+    /**
+     * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void fastForward(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+    }
+
 
         /**
          * Turns the direction of the player clockwise 90 degrees on the current board.
@@ -332,4 +300,28 @@ public class GameController {
             assert false;
         }
 
+    /**
+     * A recursive method that when moving into another player pushes them in the given direction if the next space is available.
+     *
+     * @param pusher  the player who's moving card is being used
+     * @param space   the space we want to move into
+     * @param heading the direction in which the player is moving
+     * @throws ImpossibleMoveException If the move is impossible it throws an exception
+     */
+    public void moveToSpace(@NotNull Player pusher,
+                            @NotNull Space space,
+                            @NotNull Heading heading) throws ImpossibleMoveException {
+        //assert board.getNeighbour(pusher.getSpace(), heading) == space;
+        Player pushed = space.getPlayer();
+        if (pushed != null) {
+            Space nextSpace = board.getNeighbour(space, heading);
+            if (nextSpace != null) {
+                moveToSpace(pushed, nextSpace, heading);
+                // assert space.getPlayer() == null : "Space player wants ain't free";
+            } else {
+                throw new ImpossibleMoveException(pusher, space, heading);
+            }
+        }
+        pusher.setSpace(space);
     }
+}
