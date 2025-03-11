@@ -123,6 +123,41 @@ public class GameController {
         continuePrograms();
     }
 
+    /**
+     * This is a method used to execute the actions of fields. An example could be Checkpoints.
+     *
+     * @author s235444
+     */
+    private void executeFieldActions() {
+        for (int x = 0; x < board.getPlayersNumber(); x++) {
+            Player player = board.getPlayer(x);
+            Space space = player.getSpace();
+
+            for (FieldAction action : space.getActions()) {
+                action.doAction(this, space);
+
+                if (board.getPhase() != Phase.ACTIVATION) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     This method is used to create a popup declaring who is the Winner of the game.
+     @author s235444
+      * @param message is a string which declares the winner.
+     */
+    private void displayPopup(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("GAME OVER THERE IS A WINNER");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        alert.showAndWait();
+    }
+
     private void continuePrograms() {
         do {
             executeNextStep();
