@@ -46,16 +46,16 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space) {
+    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
 
-        if (space.getPlayer() == null && board.getCurrentPlayer() != null) {
+        if (space.getPlayer() == null && board.getCurrentPlayer() != null ) {
             space.setPlayer(board.getCurrentPlayer());
             board.setCounter(board.getCounter() + 1);
         }
-        int nextPlayer = (board.getPlayerNumber(board.getCurrentPlayer()) + 1) % board.getPlayersNumber();
+        int nextPlayer = (board.getPlayerNumber(board.getCurrentPlayer()) +1) % board.getPlayersNumber();
         board.setCurrentPlayer(board.getPlayer(nextPlayer));
     }
-
+    
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -77,13 +77,13 @@ public class GameController {
             }
         }
     }
-
+    
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
-
+    
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -120,6 +120,41 @@ public class GameController {
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
+    }
+
+    /**
+     * This is a method used to execute the actions of fields. An example could be Checkpoints.
+     *
+     * @author s235444
+     */
+    private void executeFieldActions() {
+        for (int x = 0; x < board.getPlayersNumber(); x++) {
+            Player player = board.getPlayer(x);
+            Space space = player.getSpace();
+
+            for (FieldAction action : space.getActions()) {
+                action.doAction(this, space);
+
+                if (board.getPhase() != Phase.ACTIVATION) {
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     This method is used to create a popup declaring who is the Winner of the game.
+     @author s235444
+      * @param message is a string which declares the winner.
+     */
+    private void displayPopup(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("GAME OVER THERE IS A WINNER");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        alert.showAndWait();
     }
 
     private void continuePrograms() {
@@ -172,7 +207,7 @@ public class GameController {
         }
     }
 
-
+    
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -211,6 +246,7 @@ public class GameController {
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+
             Heading heading = player.getHeading();
             if (forward != null) {
                 try {
@@ -220,6 +256,26 @@ public class GameController {
             }
         }
     }
+
+        /**
+         * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+         *
+         * @param player the player which should be moved
+         */
+        public void moveBackward (@NotNull Player player) {
+            if (player.board == board) {
+                Heading heading = player.getHeading();
+                Heading oppositeHeading = player.getHeading().next().next();
+                Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
+                if (backward != null) {
+                    try {
+                        moveToSpace(player, backward, oppositeHeading);
+                    } catch (ImpossibleMoveException e) {
+                    }
+                }
+            }
+        }
+
 
     /**
      * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
@@ -239,7 +295,6 @@ public class GameController {
             }
         }
     }
-
     /**
      * Reverses the Heading of the given player on the current board.
      *
@@ -325,3 +380,4 @@ public class GameController {
         pusher.setSpace(space);
     }
 }
+
