@@ -133,7 +133,11 @@ public class GameController {
             Space space = player.getSpace();
 
             for (FieldAction action : space.getActions()) {
-                action.doAction(this, space);
+                try {
+                    action.doAction(this, space);
+                } catch (ImpossibleMoveException e) {
+                    System.err.println("Action could not be executed: " + e.getMessage());
+                }
 
                 if (board.getPhase() != Phase.ACTIVATION) {
                     break;
@@ -141,6 +145,7 @@ public class GameController {
             }
         }
     }
+
 
     /**
      This method is used to create a popup declaring who is the Winner of the game.
@@ -276,25 +281,6 @@ public class GameController {
             }
         }
 
-
-    /**
-     * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-     *
-     * @param player the player which should be moved
-     */
-    public void moveBackward(@NotNull Player player) {
-        if (player.board == board) {
-            Heading heading = player.getHeading();
-            Heading oppositeHeading = player.getHeading().next().next();
-            Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
-            if (backward != null) {
-                try {
-                    moveToSpace(player, backward, oppositeHeading);
-                } catch (ImpossibleMoveException e) {
-                }
-            }
-        }
-    }
     /**
      * Reverses the Heading of the given player on the current board.
      *
