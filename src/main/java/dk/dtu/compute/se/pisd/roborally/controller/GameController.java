@@ -31,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -207,6 +206,7 @@ public class GameController {
             assert false;
         }
     }
+
     
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
@@ -227,7 +227,7 @@ public class GameController {
                     this.fastForward(player);
                     break;
                 case UTURN:
-                    this.uturn(player);
+                    this.uTurn(player);
                     break;
                 case BACKWARD:
                     this.moveBackward(player);
@@ -237,6 +237,7 @@ public class GameController {
             }
         }
     }
+
     /**
      * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
      *
@@ -245,6 +246,7 @@ public class GameController {
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space forward = this.board.getNeighbour(player.getSpace(), player.getHeading());
+
             Heading heading = player.getHeading();
             if (forward != null) {
                 try {
@@ -274,25 +276,45 @@ public class GameController {
             }
         }
 
-        /**
-         * Reverses the Heading of the given player on the current board.
-         *
-         * @param player The player, whose direction should be changed.
-         */
-        public void uturn (@NotNull Player player){
-            player.setHeading(player.getHeading().next().next());
+
+    /**
+     * Moves the player backward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void moveBackward(@NotNull Player player) {
+        if (player.board == board) {
+            Heading heading = player.getHeading();
+            Heading oppositeHeading = player.getHeading().next().next();
+            Space backward = this.board.getNeighbour(player.getSpace(), oppositeHeading);
+            if (backward != null) {
+                try {
+                    moveToSpace(player, backward, oppositeHeading);
+                } catch (ImpossibleMoveException e) {
+                }
+            }
         }
+    }
+    /**
+     * Reverses the Heading of the given player on the current board.
+     *
+     * @param player The player, whose direction should be changed.
+     */
+    public void uTurn(@NotNull Player player) {
+        player.setHeading(player.getHeading().next().next());
+    }
 
 
-        /**
-         * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
-         *
-         * @param player the player which should be moved
-         */
-        public void fastForward (@NotNull Player player){
-            moveForward(player);
-            moveForward(player);
-        }
+    /**
+     * Moves the player forward twice on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
+     *
+     * @param player the player which should be moved
+     */
+    public void fastForward(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+    }
+
 
         /**
          * Turns the direction of the player clockwise 90 degrees on the current board.
@@ -335,30 +357,27 @@ public class GameController {
 
     /**
      * A recursive method that when moving into another player pushes them in the given direction if the next space is available.
-     * @param pusher the player who's moving card is being used
-     * @param space the space we want to move into
+     *
+     * @param pusher  the player who's moving card is being used
+     * @param space   the space we want to move into
      * @param heading the direction in which the player is moving
-     * @throws ImpossibleMoveException
+     * @throws ImpossibleMoveException If the move is impossible it throws an exception
      */
-        public void moveToSpace (@NotNull Player pusher,
-                                 @NotNull Space space,
-                                 @NotNull Heading heading) throws ImpossibleMoveException {
-            //assert board.getNeighbour(pusher.getSpace(), heading) == space;
-            Player pushed = space.getPlayer();
-            if (pushed != null) {
-                Space nextSpace = board.getNeighbour(space, heading);
-                if (nextSpace != null) {
-                    moveToSpace(pushed, nextSpace, heading);
-                    // assert space.getPlayer() == null : "Space player wants ain't free";
-                } else {
-                    throw new ImpossibleMoveException(pusher, space, heading);
-                }
-            }
-            pusher.setSpace(space);
-        }
-
-        public class ImpossibleMoveException extends Throwable {
-            public ImpossibleMoveException(@NotNull Player pusher, @NotNull Space space, @NotNull Heading heading) {
+    public void moveToSpace(@NotNull Player pusher,
+                            @NotNull Space space,
+                            @NotNull Heading heading) throws ImpossibleMoveException {
+        //assert board.getNeighbour(pusher.getSpace(), heading) == space;
+        Player pushed = space.getPlayer();
+        if (pushed != null) {
+            Space nextSpace = board.getNeighbour(space, heading);
+            if (nextSpace != null) {
+                moveToSpace(pushed, nextSpace, heading);
+                // assert space.getPlayer() == null : "Space player wants ain't free";
+            } else {
+                throw new ImpossibleMoveException(pusher, space, heading);
             }
         }
+        pusher.setSpace(space);
+    }
 }
+
