@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class CheckPointTest {
 
+
     private GameController gameController;
 
     @BeforeEach
@@ -61,6 +62,12 @@ class CheckPointTest {
                 "Space (0, 0) should be empty!");
     }
 
+//     private final int TEST_WIDTH = 8;
+//     private final int TEST_HEIGHT = 8;
+
+//     private GameController gameController;
+
+
 
     @Test
     void testCheckPointNumber() {
@@ -78,6 +85,7 @@ class CheckPointTest {
         Assertions.assertEquals(true,cp1.getLastCP(8),"Not the right last one.");
     }
 
+
     /*public boolean getLastCP(int checkPointNumber) {
         return lastCP;
     }*/
@@ -85,6 +93,7 @@ class CheckPointTest {
     /*public void setCheckPointNumber(int checkPointNumber) {
         this.checkPointNumber = checkPointNumber;
     }*/
+
 
     @Test
     void testSetLastCP() {
@@ -103,6 +112,7 @@ class CheckPointTest {
         CheckPoint cp1 = new CheckPoint(); cp1.doAction(gc,sp);
         Assertions.assertEquals(false,cp1.getLastCP(5),"Not the final space one.");
     }
+
 
     /*public void setLastCP(boolean lastCP) {
         this.lastCP = lastCP;
