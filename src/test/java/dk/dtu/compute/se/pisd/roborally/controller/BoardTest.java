@@ -72,17 +72,19 @@ class BoardTest {
         Assertions.assertEquals(2,testBoard.getGameId(), errorMess_wrongRes);
     }
 
-
-    @SuppressWarnings("null")
+    //Testing with negative index, but this might lead to a memory leak in the end
+    //because these indexes < 0 cannot be accessed.
     @Test
     void testGetGameId_null() {
 
         int testval1 = -2;
         String errorMess_wrongRes = "testGame has gameid null; has to have value.";
         Board testBoard = setupBoard();
-        testBoard.setGameId(testval1);
 
-        Assertions.assertThrows (Exception.class("ExceptionIndexOutOfBounds"),testBoard.getGameId(), errorMess_wrongRes);
+        Assertions.assertThrows (IndexOutOfBoundsException.class,() -> testBoard.setGameId(testval1), errorMess_wrongRes);
+        //testBoard.setGameId(testval1);
+
+
     }
 
     //public Integer getGameId() - Done
