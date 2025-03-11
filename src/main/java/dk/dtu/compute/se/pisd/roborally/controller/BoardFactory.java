@@ -79,8 +79,8 @@ public class BoardFactory {
     Board createDefaultBoard (Board board){
         // add some walls, actions and checkpoints to some spaces
 
-        Space space = board.getSpace(0,0);
-        space.getWalls().add(Heading.SOUTH);
+        Space space = board.getSpace(2,0);
+        space.getWalls().add(Heading.EAST);
         ConveyorBelt action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
@@ -91,7 +91,7 @@ public class BoardFactory {
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(1,1);
+        space = board.getSpace(2,1);
         space.getWalls().add(Heading.WEST);
         action  = new ConveyorBelt();
         action.setHeading(Heading.NORTH);
@@ -113,52 +113,152 @@ public class BoardFactory {
         checkPoint.setCheckPointNumber(1);
         space.getActions().add(checkPoint);
 
+        space = board.getSpace(2,6);
+        var checkPoint2 = new CheckPoint();
+        checkPoint2.setCheckPointNumber(2);
+        space.getActions().add(checkPoint2);
 
+        space = board.getSpace(1,4);
+        space.getWalls().add(Heading.NORTH);
+        space.getWalls().add(Heading.WEST);
+        var checkPoint3 = new CheckPoint();
+        checkPoint3.setCheckPointNumber(3);
+        space.getActions().add(checkPoint3);
 
-        return board;
+        space = board.getSpace(5,3);
+        space.getWalls().add(Heading.NORTH);
+        space.getWalls().add(Heading.WEST);
+        var checkPoint4 = new CheckPoint();
+        checkPoint4.setCheckPointNumber(4);
+        checkPoint4.setLastCP(true);
+        space.getActions().add(checkPoint4);
 
-    }
-    Board createAdvancedBoard(Board board){
-        Space space = board.getSpace(0,0);
-        space.getWalls().add(Heading.SOUTH);
-        ConveyorBelt action  = new ConveyorBelt();
-        action.setHeading(Heading.WEST);
-        space.getActions().add(action);
-
-        space = board.getSpace(1,0);
+        space = board.getSpace(0,3);
         space.getWalls().add(Heading.NORTH);
         action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(1,1);
-        space.getWalls().add(Heading.WEST);
+        space = board.getSpace(1,3);
+        space.getWalls().add(Heading.NORTH);
         action  = new ConveyorBelt();
-        action.setHeading(Heading.NORTH);
+        action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(5,5);
+        space = board.getSpace(2,3);
         space.getWalls().add(Heading.SOUTH);
         action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(6,5);
+        space = board.getSpace(3,3);
+        space.getWalls().add(Heading.SOUTH);
+        space.getWalls().add(Heading.EAST);
         action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-
-        space = board.getSpace(3,3);
+        space = board.getSpace(0,5);
+        space.getWalls().add(Heading.NORTH);
         action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(1,5);
+        space.getWalls().add(Heading.NORTH);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(2,5);
+        space.getWalls().add(Heading.SOUTH);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(3,5);
+        space.getWalls().add(Heading.SOUTH);
+        space.getWalls().add(Heading.EAST);
+        action  = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        return board;
+
+    }
+    Board createAdvancedBoard(Board board){
+        Space space = board.getSpace(0,1);
+        space.getWalls().add(Heading.EAST);
+        ConveyorBelt action = new ConveyorBelt();
+        action.setHeading(Heading.NORTH);
+        space.getActions().add(action);
+
+        space = board.getSpace(3,1);
+        space.getWalls().add(Heading.WEST);
+        action = new ConveyorBelt();
+        action.setHeading(Heading.SOUTH);
+        space.getActions().add(action);
+
+        space = board.getSpace(4,0);
+        space.getWalls().add(Heading.NORTH);
+        action = new ConveyorBelt();
         action.setHeading(Heading.EAST);
         space.getActions().add(action);
 
-
-        space = board.getSpace(4,6);
-        action  = new ConveyorBelt();
+        space = board.getSpace(5,2);
+        space.getWalls().add(Heading.SOUTH);
+        action = new ConveyorBelt();
         action.setHeading(Heading.NORTH);
         space.getActions().add(action);
+
+        space = board.getSpace(6,6);
+        action = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        space = board.getSpace(1,2);
+        var checkPoint = new CheckPoint();
+        checkPoint.setCheckPointNumber(1);
+        space.getActions().add(checkPoint);
+
+        space = board.getSpace(3,5);
+        var checkPoint2 = new CheckPoint();
+        checkPoint2.setCheckPointNumber(2);
+        space.getActions().add(checkPoint2);
+
+        space = board.getSpace(5,1);
+        space.getWalls().add(Heading.NORTH);
+        space.getWalls().add(Heading.WEST);
+        var checkPoint3 = new CheckPoint();
+        checkPoint3.setCheckPointNumber(3);
+        space.getActions().add(checkPoint3);
+
+        space = board.getSpace(2,4);
+        space.getWalls().add(Heading.SOUTH);
+        space.getWalls().add(Heading.NORTH);
+        var checkPoint4 = new CheckPoint();
+        checkPoint4.setCheckPointNumber(4);
+        checkPoint4.setLastCP(true);
+        space.getActions().add(checkPoint4);
+
+        space = board.getSpace(0,4);
+        space.getWalls().add(Heading.NORTH);
+        action = new ConveyorBelt();
+        action.setHeading(Heading.EAST);
+        space.getActions().add(action);
+
+        space = board.getSpace(1,4);
+        space.getWalls().add(Heading.SOUTH);
+        action = new ConveyorBelt();
+        action.setHeading(Heading.EAST);
+        space.getActions().add(action);
+
+        space = board.getSpace(4,5);
+        space.getWalls().add(Heading.NORTH);
+        action = new ConveyorBelt();
+        action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
         return board;
 
     }

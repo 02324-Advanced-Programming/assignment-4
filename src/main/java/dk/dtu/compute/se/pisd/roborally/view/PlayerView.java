@@ -35,8 +35,8 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
- *
+ * Added the status label for the checkpoints each player has collected.
+ * @author s235444
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
@@ -63,6 +63,9 @@ public class PlayerView extends Tab implements ViewObserver {
     private VBox playerInteractionPanel;
 
     private GameController gameController;
+
+    // label for status of the checkpoints for each player.
+    private Label status;
 
     public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
         super(player.getName());
@@ -91,6 +94,10 @@ public class PlayerView extends Tab implements ViewObserver {
         // FIXME the following buttons should actually not be on the tabs of the individual
         //       players, but on the PlayersView (view for all players). This should be
         //       refactored.
+
+
+        //
+        status = new Label("<no status>");
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
@@ -127,12 +134,19 @@ public class PlayerView extends Tab implements ViewObserver {
         top.getChildren().add(cardsLabel);
         top.getChildren().add(cardsPane);
 
+        // get status label
+        top.getChildren().add(status);
+
         // TODO A3 add a label for the status of this player could be added here
         //      ege showing the number of achieved chekpoints (etc).
 
         if (player.board != null) {
             player.board.attach(this);
+
+            // made changes here
+            player.attach(this);
             update(player.board);
+            update(player);
         }
     }
 
@@ -217,6 +231,8 @@ public class PlayerView extends Tab implements ViewObserver {
                     playerInteractionPanel.getChildren().add(optionButton);
                 }
             }
+        } else if (subject == player) {
+            status.setText(player.getName() + " CP: " + player.getCollectedCP());
         }
     }
 

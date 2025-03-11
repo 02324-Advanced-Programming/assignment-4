@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -140,6 +142,17 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+
+                    executeFieldActions();
+
+                    if (board.getPhase() != Phase.ACTIVATION) {
+                        if (board.getPhase() == Phase.WINNER) {
+                            // get winner message should popup here.
+                            displayPopup(board.getWonMessage());
+                        }
+                        return;
+                    }
+
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
@@ -158,6 +171,7 @@ public class GameController {
             assert false;
         }
     }
+
 
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
@@ -246,44 +260,45 @@ public class GameController {
         moveForward(player);
     }
 
-    /**
-     * Turns the direction of the player clockwise 90 degrees on the current board.
-     *
-     * @param player the player which should be turned
-     */
-    public void turnRight(@NotNull Player player) {
-        player.setHeading(player.getHeading().next());
-    }
 
-    /**
-     * Turns the direction of the player counter-clockwise 90 degrees on the current board.
-     *
-     * @param player the player which should be turned
-     */
-    public void turnLeft(@NotNull Player player) {
-        player.setHeading(player.getHeading().prev());
-    }
-
-    public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
-        CommandCard sourceCard = source.getCard();
-        CommandCard targetCard = target.getCard();
-        if (sourceCard != null && targetCard == null) {
-            target.setCard(sourceCard);
-            source.setCard(null);
-            return true;
-        } else {
-            return false;
+        /**
+         * Turns the direction of the player clockwise 90 degrees on the current board.
+         *
+         * @param player the player which should be turned
+         */
+        public void turnRight (@NotNull Player player){
+            player.setHeading(player.getHeading().next());
         }
-    }
 
-    /**
-     * A method called when no corresponding controller operation is implemented yet.
-     * This should eventually be removed.
-     */
-    public void notImplemented() {
-        // XXX just for now to indicate that the actual method is not yet implemented
-        assert false;
-    }
+        /**
+         * Turns the direction of the player counter-clockwise 90 degrees on the current board.
+         *
+         * @param player the player which should be turned
+         */
+        public void turnLeft (@NotNull Player player){
+            player.setHeading(player.getHeading().prev());
+        }
+
+        public boolean moveCards (@NotNull CommandCardField source, @NotNull CommandCardField target){
+            CommandCard sourceCard = source.getCard();
+            CommandCard targetCard = target.getCard();
+            if (sourceCard != null && targetCard == null) {
+                target.setCard(sourceCard);
+                source.setCard(null);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * A method called when no corresponding controller operation is implemented yet.
+         * This should eventually be removed.
+         */
+        public void notImplemented () {
+            // XXX just for now to indicate that the actual method is not yet implemented
+            assert false;
+        }
 
     /**
      * A recursive method that when moving into another player pushes them in the given direction if the next space is available.

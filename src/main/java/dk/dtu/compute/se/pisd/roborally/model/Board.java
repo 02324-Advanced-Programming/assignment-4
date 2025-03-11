@@ -249,6 +249,41 @@ public class Board extends Subject {
     }
 
     /**
+     * A stringbuilder method, which returns a string containing the winner or winners of the game.
+     *
+     * @author s235444
+     * @return a string used to declare the winner
+     */
+    private String wonMessage() {
+        Player winner = players.getFirst();
+        for (Player player : players) {
+            if (player.getCollectedCP() > winner.getCollectedCP()) {
+                winner = player;
+            }
+        }
+
+        // The stringbuilder which also iterates through the players to check if there are multiple winners and also adds them as winners if necessary.
+        StringBuilder wonMessage = new StringBuilder("The winner is " + winner.getName() + " who has collected " + winner.getCollectedCP() + " checkpoints during this game.\n");
+        int x = getPlayersNumber() - 1;
+        while (x >= 0) {
+
+            if(getPlayer(x).equals(winner)) {
+                x--;
+                continue;
+            }
+
+            wonMessage.append(getPlayer(x).getName()).append(" : ").append(getPlayer(x).getCollectedCP()).append(" checkpoints during this game.\n");
+            x--;
+        }
+        return wonMessage.toString();
+    }
+
+    public String getWonMessage() {
+        return wonMessage();
+    }
+
+
+    /**
      * Returns the current counter value.
      *
      * @return the current counter value
