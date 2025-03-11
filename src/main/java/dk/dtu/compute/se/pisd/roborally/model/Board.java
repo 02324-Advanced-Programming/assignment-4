@@ -84,6 +84,7 @@ public class Board extends Subject {
     }
 
     public void setGameId(int gameId) {
+        if (gameId < 0) throw new IndexOutOfBoundsException("The gameid should be positive");
         if (this.gameId == null) {
             this.gameId = gameId;
         } else {
