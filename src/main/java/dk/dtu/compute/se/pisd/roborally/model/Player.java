@@ -184,4 +184,19 @@ public class Player extends Subject {
         this.collectedCP = CPNumber;
         notifyChange();
     }
+
+    @Override
+    public String toString() {
+        String spaceDescription = (space != null) ? "x=" + space.x + ", y=" + space.y : "No space assigned";
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", heading=" + heading +
+                ", space=(" + spaceDescription + ")" +
+                ", collectedCP=" + collectedCP +
+                ", winner=" + winner +
+                '}';
+    }
+
+
 }

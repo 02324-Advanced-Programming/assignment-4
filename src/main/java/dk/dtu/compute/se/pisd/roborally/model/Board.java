@@ -303,4 +303,9 @@ public class Board extends Subject {
         this.counter = counter;
         notifyChange();
     }
+
+    public void clearPlayers(){
+        players.clear();
+    }
+
 }
