@@ -48,21 +48,26 @@ public class ConveyorBelt extends FieldAction {
     }
 
     /**
-     * Write what do here :D
+     * Logic for the conveyer belts.
+     * If player is facing same direction as belt, move them to the next space
+     * @param gameController the gameController of the respective game
+     * @param space the space this action should be executed for
+     * @return
      */
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) throws ImpossibleMoveException {
         Player player = space.getPlayer();
         Heading conveyerBeltHeading = getHeading();
-
         Space nextSpace = gameController.board.getNeighbour(space, heading);
-        if (nextSpace != null && conveyerBeltHeading == player.getHeading()) {
-            gameController.moveToSpace(player, nextSpace, heading);
-            return true;
-        } else if (nextSpace != null){
-            return true;
+
+        if (nextSpace == null) {
+            throw new ImpossibleMoveException(player, space, player.getHeading());
         }
-        throw new ImpossibleMoveException(player,space,player.getHeading());
+        if (conveyerBeltHeading == player.getHeading()) {
+            gameController.moveToSpace(player, nextSpace, heading);
+        }
+        return true;
     }
+
 
 }
