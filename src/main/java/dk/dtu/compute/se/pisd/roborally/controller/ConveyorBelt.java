@@ -59,9 +59,10 @@ public class ConveyorBelt extends FieldAction {
         if (nextSpace != null && conveyerBeltHeading == player.getHeading()) {
             gameController.moveToSpace(player, nextSpace, heading);
             return true;
-        } else {
-            throw new ImpossibleMoveException(player, space, heading);
+        } else if (nextSpace != null){
+            return true;
         }
+        throw new ImpossibleMoveException(player,space,player.getHeading());
     }
 
 }

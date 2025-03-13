@@ -352,13 +352,11 @@ public class GameController {
     public void moveToSpace(@NotNull Player pusher,
                             @NotNull Space space,
                             @NotNull Heading heading) throws ImpossibleMoveException {
-        //assert board.getNeighbour(pusher.getSpace(), heading) == space;
         Player pushed = space.getPlayer();
         if (pushed != null) {
             Space nextSpace = board.getNeighbour(space, heading);
             if (nextSpace != null) {
                 moveToSpace(pushed, nextSpace, heading);
-                // assert space.getPlayer() == null : "Space player wants ain't free";
             } else {
                 throw new ImpossibleMoveException(pusher, space, heading);
             }
