@@ -53,12 +53,11 @@ public class ConveyorBelt extends FieldAction {
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) throws ImpossibleMoveException {
         Player player = space.getPlayer();
-        // TODO: Test if this is necessary 
-        //Heading heading = getHeading();
-        
+        Heading conveyerBeltHeading = getHeading();
+
         Space nextSpace = gameController.board.getNeighbour(space, heading);
-        if (nextSpace != null) {
-            gameController.moveToSpace(player, space, heading);
+        if (nextSpace != null && conveyerBeltHeading == player.getHeading()) {
+            gameController.moveToSpace(player, nextSpace, heading);
             return true;
         } else {
             throw new ImpossibleMoveException(player, space, heading);
