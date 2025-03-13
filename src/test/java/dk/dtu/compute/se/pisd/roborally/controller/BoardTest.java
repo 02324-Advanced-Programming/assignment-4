@@ -246,6 +246,7 @@ class BoardTest {
 
     //public String getStatusMessage() {} - not done, throws errors when trying to assign
     //a gamecontroller to a boardview (fails on the boardview-init part).
+    @SuppressWarnings("")
     @Test
 
     void testGetStatusMessage_notnull() {

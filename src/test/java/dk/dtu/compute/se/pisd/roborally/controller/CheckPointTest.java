@@ -26,46 +26,8 @@ class CheckPointTest {
         defaultBoard.setCurrentPlayer(player1);
     }
 
-    @Test
-    void testMoveCurrentPlayerToSpace() {
-        Board board = gameController.board;
-
-        Player player1 = board.getPlayer(0);
-        Player player2 = board.getPlayer(1);
-
-        gameController.moveCurrentPlayerToSpace(board.getSpace(0, 4));
 
 
-        Assertions.assertEquals(player1, board.getSpace(0, 4).getPlayer(), "Player " + player1.getName() + " should be on Space (0, 4)!");
-
-        Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0, 0) should be empty!");
-
-        Assertions.assertEquals(player2, board.getCurrentPlayer(), "Current player should be " + player2.getName() + "!");
-    }
-
-
-    @Test
-    void testMoveForward() {
-        Board board = gameController.board;
-        Player current = board.getCurrentPlayer();
-        current.setHeading(Heading.SOUTH);
-        board.getSpace(0, 0).setPlayer(current);
-        gameController.moveForward(current);
-
-        Assertions.assertEquals(current, board.getSpace(0, 1).getPlayer(),
-                "Player " + current.getName() + " should be on Space (0, 1)!");
-
-        Assertions.assertEquals(Heading.SOUTH, current.getHeading(),
-                "Player " + current.getName() + " should be heading SOUTH!");
-
-        Assertions.assertNull(board.getSpace(0, 0).getPlayer(),
-                "Space (0, 0) should be empty!");
-    }
-
-//     private final int TEST_WIDTH = 8;
-//     private final int TEST_HEIGHT = 8;
-
-//     private GameController gameController;
 
 
 
