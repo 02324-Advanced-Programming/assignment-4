@@ -33,15 +33,12 @@ class ConveyerBeltTest {
 
     @Test
     void testConveyorBeltPush() {
-        Board board = new Board(TEST_WIDTH, TEST_HEIGHT, "board");
-        GameController edgeCaseGameController = new GameController(board);
+        gameController = new GameController(board);
 
         int x = 4;
         int y = 4;
 
-
         setupPushBoard(board, x, y);
-
 
         Player player1 = board.getPlayer(0); // (x, y), heading east
 
@@ -53,7 +50,7 @@ class ConveyerBeltTest {
         try {
             Space conveyorSpace = board.getSpace(x, y);
             var conveyorBelt = conveyorSpace.getActions().get(0);
-            conveyorBelt.doAction(edgeCaseGameController, conveyorSpace);
+            conveyorBelt.doAction(gameController, conveyorSpace);
         } catch (ImpossibleMoveException e) {
             fail("Conveyor belt action failed at (" + x + ", " + y + "): " + e.getMessage());
         }
@@ -65,6 +62,33 @@ class ConveyerBeltTest {
                 "Player 1 should move to right");
         assertEquals(player2, player2FinalPos.getPlayer(),
                 "Player 2 should have moved to the right right");
+    }
+
+    @Test
+    void testConveyorBeltPushOutOfBounds() {
+        board = new Board(TEST_WIDTH, TEST_HEIGHT, "outOfBoundsBoard");
+        gameController = new GameController(board);
+        int x = 0 ;
+        int y = 7;
+        setupOutOfBoundsBoard(board,x,y);
+
+        Player player1 = board.getPlayer(0);// (x, y-1), heading SOUTH and standing on the conveyer belt
+        Player player2 = board.getPlayer(1);  // (x, y), heading WEST
+
+        try {
+            Space conveyorSpace = board.getSpace(x, y-1);
+            var conveyorBelt = conveyorSpace.getActions().get(0);
+            conveyorBelt.doAction(gameController, conveyorSpace);
+        } catch (ImpossibleMoveException e) {
+            fail("Conveyor belt action failed at (" + x + ", " + y + "): " + e.getMessage());
+        }
+
+        Space player1FinalPos = board.getSpace(0, 7);
+        Space player2FinalPos = board.getSpace(0, 0);
+        assertEquals(player1, player1FinalPos.getPlayer(),
+                "Player 1 should move to (0,7)");
+        assertEquals(player2, player2FinalPos.getPlayer(),
+                "Player 2 should have moved to the (0,0)");
     }
 
 
@@ -110,28 +134,49 @@ class ConveyerBeltTest {
         board.setCurrentPlayer(player);
     }
 
-    private void setupPushBoard(Board edgeCaseBoard, int x, int y) {
-        Space conveyorSpace = edgeCaseBoard.getSpace(x, y);
+    private void setupPushBoard(Board board, int x, int y) {
+        Space conveyorSpace = board.getSpace(x, y);
         assertNotNull(conveyorSpace, "Conveyor space should not be null at (" + x + ", " + y + ")");
         ConveyorBelt conveyorBelt = new ConveyorBelt();
         conveyorBelt.setHeading(Heading.EAST);
         conveyorSpace.getActions().add(conveyorBelt);
 
         // Player 1 at (x, y), heading EAST and standing on the conveyer belt
-        Player player1 = new Player(edgeCaseBoard, null, "player1");
+        Player player1 = new Player(board, null, "player1");
         player1.setSpace(conveyorSpace);
         player1.setHeading(Heading.EAST);
 
         // Player 2 at (x, y), heading NORTH
-        Player player2 = new Player(edgeCaseBoard, null, "player2");
-        player2.setSpace(edgeCaseBoard.getSpace(x+1, y));
+        Player player2 = new Player(board, null, "player2");
+        player2.setSpace(board.getSpace(x+1, y));
         player2.setHeading(Heading.NORTH);
 
         // Add players to board
-        edgeCaseBoard.clearPlayers();
-        edgeCaseBoard.addPlayer(player1);
-        edgeCaseBoard.addPlayer(player2);
+//        board.clearPlayers();
+        board.addPlayer(player1);
+        board.addPlayer(player2);
     }
 
+    private void setupOutOfBoundsBoard( Board board, int x, int y) {
+        Space conveyorSpace = board.getSpace(x, y-1);
+        assertNotNull(conveyorSpace, "Conveyor space should not be null at (" + x + ", " + y + ")");
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        conveyorBelt.setHeading(Heading.SOUTH);
+        conveyorSpace.getActions().add(conveyorBelt);
+
+        // Player 1 at (x, y-1), heading SOUTH and standing on the conveyer belt
+        Player player1 = new Player(board, null, "player1");
+        player1.setSpace(conveyorSpace);
+        player1.setHeading(Heading.SOUTH);
+
+        // Player 2 at (x, y), heading WEST
+        Player player2 = new Player(board, null, "player2");
+        player2.setSpace(board.getSpace(x, y));
+        player2.setHeading(Heading.WEST);
+
+        board.clearPlayers();
+        board.addPlayer(player1);
+        board.addPlayer(player2);
+    }
 
 }
