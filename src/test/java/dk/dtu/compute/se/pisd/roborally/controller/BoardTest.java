@@ -240,8 +240,10 @@ class BoardTest {
 
         Space testHyperSpace = new Space(testBoard, 45,75);
 
+        testHyperSpace.setPlayer(testPlayer1);
 
-        Assertions.assertEquals(testHyperSpace, testBoard.getSpace(45,75), errorMess_wrongRes);
+
+        Assertions.assertEquals(testPlayer1, testBoard.getSpace(45,75), errorMess_wrongRes);
     }
 
     //public String getStatusMessage() {} - not done, throws errors when trying to assign
@@ -252,22 +254,31 @@ class BoardTest {
 
         Board testBoard = setupBoard();
 
+        Board scratchBoard = new Board(155,155);
         String errorMess_wrongRes = "Expected testboard to have first player";
 
         Player testPlayer1 = new Player(testBoard,"blue","TP1");
         Player testPlayer2 = new Player(testBoard,"orange","TP2");
-        testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
+        scratchBoard.addPlayer(testPlayer1); scratchBoard.addPlayer(testPlayer2);
 
-        GameController gc = new GameController(testBoard);
+
+        GameController gc = new GameController(scratchBoard);
         BoardView tbv = new BoardView(gc);
 
-        //String expectedStatus = "Just some stuff";
-        //Label tLabel = new Label(expectedStatus);
-        //tbv.getChildren().add(tLabel);
+        String expectedStatus = "Just some stuff";
+        Label tLabel = new Label(expectedStatus);
+        tbv.getChildren().add(tLabel);
 
-        //Assertions.assertEquals(expectedStatus, testBoard.getStatusMessage(), errorMess_wrongRes);
+        Assertions.assertEquals(expectedStatus, scratchBoard.getStatusMessage(), errorMess_wrongRes);
     }
 
+
+    @Test
+    void createBoardView() {
+        Board boardingtest = new Board(45,45,"boardingTesting");
+        GameController gctest = new GameController(boardingtest);
+        BoardView testbv = new BoardView(gctest);
+    }
     //public int getCounter()
 
     //public void setCounter(int counter)
