@@ -175,6 +175,12 @@ public class GameController {
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
+
+                    if (card.command == Command.LEFT_OR_RIGHT) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        board.notifyChange();
+                        return;
+                    }
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
@@ -185,11 +191,10 @@ public class GameController {
 
                     executeFieldActions();
 
-                    if (board.getPhase() != Phase.ACTIVATION) {
-                        if (board.getPhase() == Phase.WINNER) {
-                            // get winner message should popup here.
-                            displayPopup(board.getWonMessage());
-                        }
+                    if (board.getPhase() != Phase.ACTIVATION && board.getPhase() == Phase.WINNER) {
+                        // get winner message should popup here.
+                        displayPopup(board.getWonMessage());
+
                         return;
                     }
 
@@ -215,9 +220,6 @@ public class GameController {
     
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
             switch (command) {
                 case FORWARD:
                     this.moveForward(player);
@@ -238,10 +240,54 @@ public class GameController {
                     this.moveBackward(player);
                     break;
                 default:
-                    // DO NOTHING (for now)
+
             }
         }
     }
+
+
+    /**
+     * method to turn right or left
+     * @param direction specifies the direction to turn
+     */
+    public void executeLeftOrRight(Command direction) {
+        Player currentPlayer = board.getCurrentPlayer();
+
+        executeCommand(currentPlayer, direction);
+        board.setPhase(Phase.ACTIVATION);
+
+        advanceGameState();
+
+    }
+
+    /**
+     * Move to a player's turn or move a step forward in the game
+     * If more players who need to execute current step , move to next player's turn.
+     * If all players executed current step, move to the next step.
+     * If all steps executed, transition to programming phase.
+     */
+    private void advanceGameState() {
+        Player currentPlayer = board.getCurrentPlayer();
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+
+        // check if more players need to execute current step
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            return;
+        }
+
+        int nextStep = board.getStep() + 1;
+        // check all steps have been executed
+        if (nextStep >= Player.NO_REGISTERS) {
+            startProgrammingPhase();
+            return;
+        }
+        board.setStep(nextStep);
+        board.setCurrentPlayer(board.getPlayer(0));
+    }
+
+
+
 
     /**
      * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.

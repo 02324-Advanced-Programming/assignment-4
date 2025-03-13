@@ -91,6 +91,8 @@ class GameControllerTest {
         Assertions.assertEquals(current, board.getSpace(1, 1).getPlayer(), "Player " + current.getName() + " should be at Space (1,1)!");
         Assertions.assertEquals(prev.next(), current.getHeading(), "Player " + current.getName() +  "should be heading" + prev.next());
     }
+
+    @Test
     void fastForward() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();

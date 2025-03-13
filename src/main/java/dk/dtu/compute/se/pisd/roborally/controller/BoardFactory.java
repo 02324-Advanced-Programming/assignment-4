@@ -56,10 +56,6 @@ public class BoardFactory {
         return instance;
     }
 
-    //might need to check something for null
-//    public List<String> getBoardNames() {
-//        return Collections.unmodifiableList(availableBoardNames);
-//    }
 
     /**
      * Creates a new board of given name of a board, which indicates
