@@ -6,6 +6,6 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
 public class ImpossibleMoveException extends Throwable {
-    public ImpossibleMoveException(@NotNull Player pusher, Space space, @NotNull Heading heading) {
+    public ImpossibleMoveException(Player pusher, Space space, Heading heading) {
     }
 }
