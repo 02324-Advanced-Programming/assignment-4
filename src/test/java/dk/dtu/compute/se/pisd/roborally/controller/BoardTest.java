@@ -229,19 +229,24 @@ class BoardTest {
     //does not return a space in itself, but it returns null.
     @Test
     void testGetNeighbour_notnull() {
+        // Create a board with dimensions 45x75
+        Board testBoard = new Board(45, 75, "testBoardTotal");
 
-        Board testBoard = setupBoard();
+        // Error message for assertion failure
+        String errorMess_wrongRes = "Expected testboard to have a Space at (44, 74)";
 
-        String errorMess_wrongRes = "Expected testboard to have hyperspace-set";
+        // Add players to the board (if needed for the test)
+        Player testPlayer1 = new Player(testBoard, "blue", "TP1");
+        Player testPlayer2 = new Player(testBoard, "orange", "TP2");
+        testBoard.addPlayer(testPlayer1);
+        testBoard.addPlayer(testPlayer2);
 
-        Player testPlayer1 = new Player(testBoard,"blue","TP1");
-        Player testPlayer2 = new Player(testBoard,"orange","TP2");
-        testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
+        Space space = testBoard.getSpace(44, 74);
 
-        Space testHyperSpace = new Space(testBoard, 45,75);
+        Assertions.assertNotNull(space, errorMess_wrongRes);
 
-
-        Assertions.assertEquals(testHyperSpace, testBoard.getSpace(45,75), errorMess_wrongRes);
+        Assertions.assertEquals(44, space.x, "X coordinate is incorrect");
+        Assertions.assertEquals(74, space.y, "Y coordinate is incorrect");
     }
 
     //public String getStatusMessage() {} - not done, throws errors when trying to assign
