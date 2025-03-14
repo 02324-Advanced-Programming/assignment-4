@@ -2,19 +2,81 @@
 
 # TODO
 
-# How to modify/create UI stuffs 
-* if you want to add an element to a board, create a Space object and add what you want to it (in BoardFactory)
-* Then use your Space object logic to create your UI components inside the Views (most likely SpaceView)
 
 # DELEGATIONS
-* Ben: Checkpoints, winner-phase; 
-* Josh: Error/bug corrections, design, meta-stuff, refactoring, etc.; 
-* Laxmanan: To be assigned.... 
-* Rasmus: To be assigned...
-* Lauritz: Model/controller communication in-between etc; 
-* Kasper: All visuals, GUIs, updateView()-implementations etc.;
+* Ben:  
+* Josh: 
+* Laxmanan:  
+* Rasmus:   
+* Kasper: 
 
-Add below if anything extra is missing, so that we can assign it to people. 
+
+
+    The functionality requested at each assignment should be present in the game as described in the statement of each assignment. In short:
+        4a: move player to space by clicking, changing turns and counting moves shown in the status bar;
+        4b: standard and advanced board generation at game start;
+        4c: executing commands cards and programs, including two new command cards;
+        4d: field actions and player pushing;
+        4e: winning the game and interactive command cards.
+    No exceptions should appear in the console at any point (test test test!)
+    All tests must be passing, including the additional tests you have implemented. In detail:
+        there should be tests for the functionality added in classes of the model and controller packages to do the assignments;
+        you should have 100% coverage of code in the GameController class, excluding only assert false statements and eventual dead code;
+        you should have 100% coverage of the doAction() methods of the ConveyorBelt and CheckPoint classes, and any other class implemented by you that extends FieldAction;
+        all tests mentioned above should pass without errors.
+
+    You must provide JavaDoc comments in:
+        all methods and classes implemented by you, e.g. the CheckPoint class and the moveForward() method;
+        all methods and classes where you wrote code in, e.g. the PlayerView class and the executeNextStep() method.
+
+
+
+
+
+    Write a README.txt (or .md or .pdf) file and add it at top level inside the roborally/ directory.
+        Structure the file per assignment, making one section for assignment 4a, another for assignment 4b, etc.
+        For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+        If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+
+## 4a Benjamin
+### Implementation
+For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+
+### Extra functionality
+If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+
+
+## 4B Rasmus
+### Implementation
+For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+
+### Extra functionality
+If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+
+
+## 4c Kasper
+### Implementation
+For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+
+### Extra functionality
+If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+
+
+## 4d Lauritz
+### Implementation
+For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+
+### Extra functionality
+If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+
+
+## 4e Josh
+### Implementation
+For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+
+### Extra functionality
+If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+
 
 Tasks for 4c:
 * implement the four existing commands in the corresponding 
