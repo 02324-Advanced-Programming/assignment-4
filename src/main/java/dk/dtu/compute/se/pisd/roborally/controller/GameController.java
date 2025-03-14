@@ -282,6 +282,7 @@ public class GameController {
             startProgrammingPhase();
             return;
         }
+        makeProgramFieldsVisible(nextStep);
         board.setStep(nextStep);
         board.setCurrentPlayer(board.getPlayer(0));
     }
