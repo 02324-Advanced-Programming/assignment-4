@@ -1,58 +1,5 @@
 # Roborally
 
-# TODO
-
-# How to modify/create UI stuffs 
-* if you want to add an element to a board, create a Space object and add what you want to it (in BoardFactory)
-* Then use your Space object logic to create your UI components inside the Views (most likely SpaceView)
-
-# DELEGATIONS
-* Ben: Checkpoints, winner-phase; 
-* Josh: Error/bug corrections, design, meta-stuff, refactoring, etc.; 
-* Laxmanan: To be assigned.... 
-* Rasmus: To be assigned...
-* Lauritz: Model/controller communication in-between etc; 
-* Kasper: All visuals, GUIs, updateView()-implementations etc.;
-
-Add below if anything extra is missing, so that we can assign it to people. 
-
-Tasks for 4c:
-* implement the four existing commands in the corresponding 
-methods in class  GameController (according to the rules provided during class)
-* the three buttons, “Finish Programming”, “Execute Programm” and “Execute Current Register”
-Associate these buttons, with the correct methods in the GameController. And then check whether the robots’ programs 
-are now correctly executed when these buttons are pressed.
-* write some tests for each command (for movement operations there also must be a test when there is a wall blocking the movement).
-* At last, add commands and their implementing methods for move “backwards” and “U turn”, add tests and JavaDocs. Check also manually, whether these new commands 
-work properly.
-
-And add JavaDoc to everything
-```java
-/**
- * This is a function that returns the param as a string.
- * @param pram any string
- * @return String with some text
- */
-public static string myFunction(String pram) {
- return "This is the pram:" + pram;
-}
-```
-
-# DONE
-* Implement `BoardFactory()`
-  * Provides a list of all available board names as Strings
-  * Creates a new board for such a name, which is given as a parameter
-  * Then start the game when a user have chosen what board
-* Implement UI to show the board elements like walls ie:
-* Make a new board layout - Lauritz is working on this one.
-  * Need to contain
-    * Walls
-    * conveyor belts facing different directions
-    * Checkpoints with their number
-* Create class checkpoint that extends FieldAction (look at walls and conveyor belts for help)
-* Implement `updateView()`
-
-
 # GIT COMMANDS 
 * first make sure you are in the correct folder on your local device (do not put the < > when running commands)
 ```bash 
