@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * s247273
+ */
 class ConveyerBeltTest {
 
     private static final int TEST_WIDTH = 8;
@@ -29,6 +32,22 @@ class ConveyerBeltTest {
     void tearDown() {
         gameController = null;
         board = null;
+    }
+
+    @Test
+    void testGetHeading() {
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        conveyorBelt.setHeading(Heading.NORTH);
+
+        assertEquals(Heading.NORTH, conveyorBelt.getHeading(), "Heading should be NORTH");
+    }
+
+    @Test
+    void testSetHeading() {
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        conveyorBelt.setHeading(Heading.SOUTH);
+
+        assertEquals(Heading.SOUTH, conveyorBelt.getHeading(), "Heading should be SOUTH");
     }
 
     @Test
@@ -188,5 +207,7 @@ class ConveyerBeltTest {
         board.addPlayer(player1);
         board.addPlayer(player2);
     }
+
+
 
 }

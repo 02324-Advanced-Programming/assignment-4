@@ -128,7 +128,7 @@ public class GameController {
      *
      * @author s235444
      */
-    private void executeFieldActions() {
+    void executeFieldActions() {
         for (int x = 0; x < board.getPlayersNumber(); x++) {
             Player player = board.getPlayer(x);
             Space space = player.getSpace();
@@ -171,7 +171,7 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
-    private void executeNextStep() {
+    void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -221,7 +221,7 @@ public class GameController {
     }
 
     
-    private void executeCommand(@NotNull Player player, Command command) {
+    void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
             switch (command) {
                 case FORWARD:
@@ -252,6 +252,7 @@ public class GameController {
     /**
      * method to turn right or left
      * @param direction specifies the direction to turn
+     * s247273
      */
     public void executeLeftOrRight(Command direction) {
         Player currentPlayer = board.getCurrentPlayer();
@@ -268,6 +269,7 @@ public class GameController {
      * If more players who need to execute current step , move to next player's turn.
      * If all players executed current step, move to the next step.
      * If all steps executed, transition to programming phase.
+     * s247273
      */
     private void advanceGameState() {
         Player currentPlayer = board.getCurrentPlayer();

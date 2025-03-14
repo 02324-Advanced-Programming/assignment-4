@@ -48,8 +48,8 @@ public class ConveyorBelt extends FieldAction {
     }
 
     /**
-     * Logic for the conveyer belts.
-     * If player is facing same direction as belt, move them to the next space
+     *Executes the action of the conveyor belt.
+     * If player is on a conveyor belt, the player will be moved to the next space in the direction of the conveyor belt.
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
      * @return
