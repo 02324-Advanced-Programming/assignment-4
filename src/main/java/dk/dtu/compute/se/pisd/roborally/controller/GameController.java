@@ -159,7 +159,7 @@ public class GameController {
         alert.setContentText(message);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.setAlwaysOnTop(true);
-        alert.showAndWait();
+        var result = alert.showAndWait();
     }
 
     private void continuePrograms() {

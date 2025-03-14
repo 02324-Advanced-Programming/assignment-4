@@ -20,16 +20,10 @@ public class BoardFactory {
      */
     static private BoardFactory instance = null;
 
-    /**
-     * Constructor for BoardFactory. It is private in order to make the factory a singleton.
-     */
-//    private BoardFactory() {
-//    }
-
-    //the list of boards
-//    private final List<String> availableBoardNames = List.of("default", "advanced");
-
+    //A map of board creators, where the key is the name of the board and the value is a function that creates the board
     private final Map<String, Function<Board, Board>> boardCreators = new HashMap<>();
+
+    //If you want to create a new board, create your board function, then register it here with a name :
 
     private BoardFactory() {
         registerBoard("default", board -> createDefaultBoard(board));

@@ -17,6 +17,8 @@ import java.util.List;
 import javafx.scene.control.Label;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SuppressWarnings("")
 
@@ -69,7 +71,7 @@ class BoardTest {
         Board testBoard = setupBoard();
         testBoard.setGameId(testval1);
 
-        Assertions.assertEquals(2,testBoard.getGameId(), errorMess_wrongRes);
+        assertEquals(2,testBoard.getGameId(), errorMess_wrongRes);
     }
 
     //Testing with negative index, but this might lead to a memory leak in the end
@@ -96,7 +98,7 @@ class BoardTest {
         testBoard.setGameId(3);
         String errorMess_wrongRes = "Expected testboard to have gameid 3";
 
-        Assertions.assertEquals(3, testBoard.getGameId(), errorMess_wrongRes);
+        assertEquals(3, testBoard.getGameId(), errorMess_wrongRes);
     }
 
     //public Space getSpace(int x, int y) - done
@@ -108,7 +110,7 @@ class BoardTest {
         Board testBoard = setupBoard();
         Space testSpace = setupSpace(coords[0],coords[1]);
 
-        Assertions.assertEquals(testBoard.getSpace(coords[0],coords[1]),testBoard.getSpace(2,5), errorMess_wrongRes);
+        assertEquals(testBoard.getSpace(coords[0],coords[1]),testBoard.getSpace(2,5), errorMess_wrongRes);
     }
 
     //public int getPlayersNumber() - done
@@ -123,7 +125,7 @@ class BoardTest {
 
         testBoard.addPlayer(testPlayer1);testBoard.addPlayer(testPlayer2);
 
-        Assertions.assertEquals(2, testBoard.getPlayersNumber(), errorMess_wrongRes);
+        assertEquals(2, testBoard.getPlayersNumber(), errorMess_wrongRes);
     }
 
     //public Player getPlayer(int i)
@@ -138,7 +140,7 @@ class BoardTest {
         Player testPlayer2 = new Player(testBoard,"orange","TP2");
         testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
 
-        Assertions.assertEquals(testPlayer1, testBoard.getPlayer(0), errorMess_wrongRes);
+        assertEquals(testPlayer1, testBoard.getPlayer(0), errorMess_wrongRes);
     }
 
     //public Player getCurrentPlayer()
@@ -154,7 +156,7 @@ class BoardTest {
         testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
         testBoard.setCurrentPlayer(testPlayer2);
 
-        Assertions.assertEquals(testPlayer2, testBoard.getCurrentPlayer(), errorMess_wrongRes);
+        assertEquals(testPlayer2, testBoard.getCurrentPlayer(), errorMess_wrongRes);
     }
 
     //public Phase getPhase()
@@ -171,7 +173,7 @@ class BoardTest {
 
         Phase testPhase = Phase.WINNER;
         testBoard.setPhase(testPhase);
-        Assertions.assertEquals(Phase.WINNER, testBoard.getPhase(), errorMess_wrongRes);
+        assertEquals(Phase.WINNER, testBoard.getPhase(), errorMess_wrongRes);
     }
 
     //public int getStep() - done
@@ -187,7 +189,7 @@ class BoardTest {
         testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
 
         testBoard.setStep(7);
-        Assertions.assertEquals(7, testBoard.getStep(), errorMess_wrongRes);
+        assertEquals(7, testBoard.getStep(), errorMess_wrongRes);
     }
 
     //@Test
@@ -205,7 +207,7 @@ class BoardTest {
         testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
 
         testBoard.setStepMode(false);
-        Assertions.assertEquals(false, testBoard.isStepMode(), errorMess_wrongRes);
+        assertEquals(false, testBoard.isStepMode(), errorMess_wrongRes);
     }
 
     //public int getPlayerNumber(@NotNull Player player) - done
@@ -221,7 +223,7 @@ class BoardTest {
         testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
 
 
-        Assertions.assertEquals(1, testBoard.getPlayerNumber(testPlayer2), errorMess_wrongRes);
+        assertEquals(1, testBoard.getPlayerNumber(testPlayer2), errorMess_wrongRes);
     }
 
 
@@ -242,10 +244,11 @@ class BoardTest {
         testPlayer2.setSpace(testBoard.getSpace(43, 74));
         testPlayer2.setHeading(Heading.EAST);
 
+        assertNotNull(testBoard.getSpace(44,74).getPlayer(), errorMess_wrongRes);
         Space neighbourSpace = testBoard.getNeighbour(testBoard.getSpace(43, 74), Heading.EAST);
 
         //test if the neighbour of player2 is player1
-        Assertions.assertEquals(testPlayer1.getSpace(), neighbourSpace, errorMess_wrongRes);
+        assertEquals(testPlayer1.getSpace(), neighbourSpace, errorMess_wrongRes);
     }
 
     //public String getStatusMessage() {} - not done, throws errors when trying to assign
