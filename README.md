@@ -64,6 +64,7 @@ If you have implemented any extra functionality over the basic requirements, e.g
 
 ## 4d Lauritz
 ### Implementation
+
 For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
 
 ### Extra functionality
@@ -72,7 +73,20 @@ If you have implemented any extra functionality over the basic requirements, e.g
 
 ## 4e Josh
 ### Implementation
-For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+### Winning the game 
+* The game is won when the first player reaches the last checkpoint. 
+
+#### Interactive command cards.
+* Normal flow of the game must be interrupted when a Turn Right or Left command is executed 
+* To implement, we check the card type in exeucteNextStep() before executing the command.
+* If it is, we set the game phase to interactive mode, and notify the PlayerView to rebuild the buttons for UI
+* Once player clicks on a button, this calls a method to execute the command they wanted (either turn left or turn right)
+  * We change the game state back to Activation, and must either allow all other players to continue their turn
+  * Or if all players have finished their turn, we need to go back to the programming phase.
+* We need to add a new method in the GameController to handle the interactive phase, and a new method in the PlayerView to rebuild the buttons.
+* To implement, we keep track of the number of steps in the current round of execution. 
+  * If the number of steps is less than the total number of card registers, we are still inside a round, so all players must have their turn to execute their remaining registers
+  * else if the number of steps is greater than the number of card registers, the round is over, so we go back to the programming phase to start a new round 
 
 ### Extra functionality
 If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
