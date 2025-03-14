@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
@@ -159,7 +160,9 @@ public class GameController {
         alert.setContentText(message);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.setAlwaysOnTop(true);
-        var result = alert.showAndWait();
+        alert.setOnHidden(event -> Platform.exit());
+
+        alert.showAndWait();
     }
 
     private void continuePrograms() {
