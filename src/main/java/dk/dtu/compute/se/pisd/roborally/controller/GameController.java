@@ -56,7 +56,17 @@ public class GameController {
         int nextPlayer = (board.getPlayerNumber(board.getCurrentPlayer()) +1) % board.getPlayersNumber();
         board.setCurrentPlayer(board.getPlayer(nextPlayer));
     }
-    
+
+
+
+    /**
+     * The function to initiate the programming phase, which
+     * is the phase/state where the user is able to drag-and-drop cards from the
+     * bottom, shuffled, panel of random movement cards, up to the card-slots, which -
+     * if the cards are placed inside of any of these - will be executed/acted-upon during
+     * the next execution phase.
+     * Returns nothing, as this function only begins this phase and makes everything ready.
+     */
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -78,7 +88,15 @@ public class GameController {
             }
         }
     }
-    
+
+    /**
+     * This function generates each and every random movement card in the bottom of
+     * the player's action-screen. These cards can then be dragged into the just-above-fields
+     * for executing cards. These cards are, ofc, randomly generated, so that we avoid
+     * any bias of action.
+     * @return a command card, which can then be moved into the execution-of-cards-places
+     * during the programming-phase and before the execution-phase is initiated.
+     */
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
