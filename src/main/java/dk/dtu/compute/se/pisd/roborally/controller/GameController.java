@@ -29,7 +29,8 @@ import org.jetbrains.annotations.NotNull;
 
 
 /**
- * ...
+ * All the necessities to make the functioning GAME work. Moving, playing etc.
+ * Controls the game logic for RoboRally, managing phases, player actions, and movement on the game board.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

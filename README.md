@@ -39,11 +39,40 @@
         If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
 
 ## 4a Benjamin
-### Implementation
-For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+To complete Assignment 4a, we started by downloading the provided project (assignment4.zip) from DTU Learn and setting it up in IntelliJ. This involved extracting the ZIP file and opening the project using its pom.xml file to ensure Maven dependencies were properly configured. Additionally, we initialized a Git repository and pushed the project to a remote repository for version control and collaboration.
 
-### Extra functionality
-If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+Next we focused on understanding the project structure, the architecture and the core concepts and rules of RoboRally. 
+We discussed the key classes in the model and controller package relevant to this assignment in further detail:
+- **Board**: Represents the game board and manages spaces and players. This is where the data combines for the state of the game.
+- **Space**: Represents individual fields on the board where players can move.
+- **Player**: Represents a player’s robot and information relevant about them + additional methods.
+- **GameController**: Manages game logic, including player turns and movement.
+
+We added JavaDoc comments to these classes and their relevant methods to improve clarity and future maintainability.
+
+To enable player movement on clicking an empty space:
+1. Located the `moveCurrentPlayerToSpace()` method in `GameController`, which was marked with a TODO comment.
+2. Retrieved the current player using `Board.getCurrentPlayer()`.
+3. We checked if the clicked space was empty.
+4. If the space was empty, we updated the player’s position and incremented the move counter.
+5. We updated the board state by setting the next player as the current player.
+6. We tested this functionality using the provided unit test and manually verified the expected behavior in the GUI.
+
+Next, I introduced a move counter in the `Board` class:
+1. Added an integer attribute `private int counter;`.
+2. Created getter and setter methods (`getCounter()` and `setCounter(int count)`).
+3. Modified `setCounter()` to increment the counter and call `notifyChange()` to update the GUI.
+4. Integrated the counter increment into `moveCurrentPlayerToSpace()` so that every successful move increases the count.
+
+To reflect the move counter in the game’s status bar:
+1. Modified `Board.getStatusMessage()` to append the move count.
+2. Ensured the GUI updates properly when a move is made.
+
+We manually tested the implementation by running the game and ensuring:
+- Players could move to empty spaces.
+- The move counter updated correctly.
+- The correct player’s turn was displayed.
+- The unit test passed successfully.
 
 
 ## 4B Rasmus

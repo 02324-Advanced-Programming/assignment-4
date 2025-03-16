@@ -27,7 +27,15 @@ import org.jetbrains.annotations.NotNull;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
- * ...
+ * Represents a player in the game, extending the {@link Subject} class.
+ * Each player has attributes such as name, color, position on the board,
+ * heading direction, collected checkpoints, and a winner status.
+ * Additionally, the player maintains a program field and a set of cards for game interactions.
+ *
+ * <p>The player is associated with a {@link Board} and can occupy a {@link Space}.
+ * The player's movement and state changes are tracked and notified accordingly.</p>
+ *
+ * <p>Players can interact with command cards, update their heading, and track their progress in the game by collecting checkpoints.</p>
  *
  * Made changes to the player to implement checkpoint and winner features. New fields and methods were added.
  *

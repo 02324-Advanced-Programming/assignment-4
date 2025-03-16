@@ -26,12 +26,15 @@ import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * ...
+ * Represents a single space on the game board.
+ * A space can hold a player, walls, and field actions.
+ *
+ * <p>Spaces are part of a {@link Board} and are defined by their (x, y) coordinates.
+ * They can contain walls that restrict movement and field actions that may affect
+ * gameplay. A space can be occupied by at most one {@link Player} at a time.</p>
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class Space extends Subject {
 
