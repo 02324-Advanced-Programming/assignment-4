@@ -235,9 +235,8 @@ public class Board extends Subject {
     }
     /**
      *
-     * This function returns a string representation - across two lines - of
-     * where a certain player is located currently on the board.
-     * @return A two-lined string of the player's status and position on board.
+     * This function returns a string of the current player, amount of steps and the game's PHASE.
+     * @return A 3-lined string of the player's status and steps and the Phase of the game.
      */
     public String getStatusMessage() {
         // this is actually a view aspect, but for making assignment V1 easy for
@@ -246,7 +245,7 @@ public class Board extends Subject {
         
         // TODO V2: changed the status so that it shows the phase, the current player, and the current register
         return "Player = " + getCurrentPlayer().getName()
-                + " Amount of steps: " + getCounter();
+                + " Amount of steps: " + getCounter() + " Phase: " + getPhase();
     }
 
     /**

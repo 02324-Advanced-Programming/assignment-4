@@ -114,7 +114,7 @@ If you have implemented any extra functionality over the basic requirements, e.g
 ## 4e Josh
 ### Implementation
 ### Winning the game 
-* The game is won when the first player reaches the last checkpoint. 
+The Checkpoint class (Controller) contains the main logic, ensuring players pass through checkpoints in the correct order and awarding points when appropriate. Upon reaching the final checkpoint, the game transitions to the winner phase. In the Board class (model), we implemented the logic to generate the string that announces the winner. Additionally, in the GameController class, within the executeNextStep() method, a check is performed to see if the phase has shifted to WINNER. If so, a popup displaying the wonMessage is shown, signaling the end of the game.
 
 #### Interactive command cards.
 * Normal flow of the game must be interrupted when a Turn Right or Left command is executed 
