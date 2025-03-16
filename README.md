@@ -60,6 +60,21 @@ For each assignment, briefly explain what did you do to implement your solutions
 
 ### Extra functionality
 If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+____________________________
+Overall - in the broader perspective - this assignment 4c regards how a robot moves, especially in accordance with other robots, walls, and conveyor-belts; further movement.
+The Gamecontroller handles most of the coordination and controls between the parts.
+
+So, before the robot moves to a field, we check - via the getNeighbour(space, heading) function - that the neighbouring field (the one referenced from the space-param) is both empty, and there is no wall between the two fields, and that the neighbouring field - from its own perspective - has no wall either; because then, our robot can move to that field/space.
+
+The other part of the movement regards how we can pre-program the robot movement.
+We do so, by dragging the randomly-generated cards from the bottom of the screen, to the playing-cards-fields just above the fields from which we drew the cards, will dictate the behaviour of the robot’s next movements; i.e. when we click the “Finish programming”-butt.
+Some of the most important parts of this interactive addition to the game, is that we have these 3 buttons for action for when the player has their turn - then, the card-actions will be executed in order, as the game is in stepmode, meaning that it will keep executing the cards, step-by-step until done.
+These 3 action-buttons are implemented through eventHandlers on each button (via the setOnAction), which ensures to then notify (and also calling the functions in) the game-controller-class  via the StartProgrammingPhase(), executePrograms(), and executeStep(); the implementations for each of them are found in the game-controller-class.
+The exeutePrograms() and executeStep() are used to implement that the playing-cards - all of them - will be executed on the robot - now that the stepmode is enabled; thus, all playing-cards are executed in order, and then it will be the next player’s cards to be taken into action after that.
+
+Also, it should be noted that the functions next() and prev() are direction-oriented; they are some abbr. for nextHeading and prevHeading - they shift to the next or prev enum-heading, we shift our direction.
+
+A quick note is that the notImplemented()-functions have been replaced by the eventhandler-functions; so, not implemented is officially deprecated and being get rid of…
 
 
 ## 4d Lauritz
