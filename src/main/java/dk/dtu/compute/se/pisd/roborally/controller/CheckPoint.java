@@ -57,7 +57,7 @@ public class CheckPoint extends FieldAction{
      *
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
-     * @return
+     * @return Whether the CP was collected.
      */
     @Override
     public boolean doAction(GameController gameController, Space space) {

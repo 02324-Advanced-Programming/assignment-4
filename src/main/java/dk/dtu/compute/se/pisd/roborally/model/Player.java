@@ -143,10 +143,21 @@ public class Player extends Subject {
         }
     }
 
+    /**
+     * The program-field that the user can put command cards inside.
+     * @param i Index of the field.
+     * @return The requested command card.
+     */
     public CommandCardField getProgramField(int i) {
         return program[i];
     }
 
+    /**
+     * The card-field (the one that the user can choose from
+     * in the bottom of the display) that the user can select command card from.
+     * @param i Index of the field.
+     * @return The requested command card from the bottom fields of cards.
+     */
     public CommandCardField getCardField(int i) {
         return cards[i];
     }
