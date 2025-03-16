@@ -56,10 +56,6 @@ If you have implemented any extra functionality over the basic requirements, e.g
 
 ## 4c Kasper
 ### Implementation
-For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
-
-### Extra functionality
-If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
 ____________________________
 Overall - in the broader perspective - this assignment 4c regards how a robot moves, especially in accordance with other robots, walls, and conveyor-belts; further movement.
 The Gamecontroller handles most of the coordination and controls between the parts.
@@ -75,7 +71,7 @@ The exeutePrograms() and executeStep() are used to implement that the playing-ca
 Also, it should be noted that the functions next() and prev() are direction-oriented; they are some abbr. for nextHeading and prevHeading - they shift to the next or prev enum-heading, we shift our direction.
 
 A quick note is that the notImplemented()-functions have been replaced by the eventhandler-functions; so, not implemented is officially deprecated and being get rid of…
-
+______________________________________________________________________
 
 ## 4d Lauritz
 ### Implementation
