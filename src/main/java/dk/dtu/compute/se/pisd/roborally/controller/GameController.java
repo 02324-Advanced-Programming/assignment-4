@@ -102,7 +102,15 @@ public class GameController {
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
-    
+
+
+    /**
+     * This function is called in the specific situation where the user is done
+     * with selecting cards for the user's robot, and then after that, then the user clicks
+     * the "Finish programming" button, and the button triggers this function, which effectively
+     * changes/transitions the state of the game, and then it is the other user's turn, by changing phase.
+     */
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -110,6 +118,11 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
+
+    /**
+     * The program fields are the fields that the user can select to put cards into.
+     * @param register is the index of the register, which the user can place a game card into.
+     */
 
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
@@ -121,6 +134,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Effectively - as the function states - hides the sequence-buttons on the display,
+     * and this is a part of the transitioning phase from the programming phase to the execution phase.
+     */
+
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -131,11 +149,22 @@ public class GameController {
         }
     }
 
+    /**
+     * After the player-command-card-sequence has been set up, this function is activated - via the side-panel -
+     * and it triggers a new mode where the robot is no longer controlled by the user's direct clicking,
+     * but instead by the sequence of command cards placed prior to this action.
+     */
+
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
     }
 
+    /**
+     * This is roughly the same function as the executePrograms(), except for a major difference;
+     * this executeStep will allow the user to take only 1 step pr time, instead of the sequence
+     * of pre-programmed cards.
+     */
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
@@ -183,12 +212,20 @@ public class GameController {
         alert.showAndWait();
     }
 
+    /**
+     * Called when the program's step mode is disabled, and the game simply needs to
+     * keep executing the command cards.
+     */
     private void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
+    /**
+     * A stepwise function which allows the user to have the command cards execute pr request
+     * - one at a time - instead of executing all of them automatically all at once.
+     */
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -238,6 +275,14 @@ public class GameController {
         }
     }
 
+    /**
+     * When having given the robot a specific command through the drag-and-drop-field
+     * of command cards, executeCommand will be called to make that specific action happen
+     * for the robot in question.
+     * @param player Is the player, whose robot on the board will have this specific execution of action.
+     * @param command Is the command that the robot will receive, and then this function
+     *                aids with the implementation of the action itself.
+     */
     
     private void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
