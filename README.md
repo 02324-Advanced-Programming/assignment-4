@@ -77,11 +77,55 @@ We manually tested the implementation by running the game and ensuring:
 
 ## 4B Rasmus
 ### Implementation
-For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+In this solution, we implemented the BoardFactory class to support multiple boards for the RoboRally game.
 
-### Extra functionality
-If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
+The primary goal for the BoardFactory was to implement two methods:
 
+getBoardNames(): This method provides a list of all available board names as strings. It will be used in the app to display the list of options to the user when starting a new game.
+
+createBoard(String name): This method creates a new board based on the provided name. It retrieves the corresponding creation function from the internal map (boardCreators) and uses it to create the desired board. If the name is not recognized, the method throws an exception to handle invalid inputs.
+
+To achieve this functionality:
+
+Board Management with a Map:
+
+The boardCreators map is used to register and manage board creation functions. Each board name is associated with its respective creation.
+
+This setup makes it easy to add new boards in the future. New board types can be registered using the registerBoard() method, where the name and creation function are mapped together.
+
+Boards:
+
+In the private constructor of the BoardFactory, predefined boards are registered using registerBoard(). Each type is linked to its corresponding creation function, such as createDefaultBoard or createAdvancedBoard.
+
+Finally, the BoardFactory is integrated into the AppController. In the newGame() method:
+
+A choice dialog is displayed to the user, showing the list of available board names provided by getBoardNames().
+
+The user's selection is passed to createBoard(String name) to create the corresponding board.
+The new game is then started on the created board.
+
+To complete the second part of the task, the game board was updated to have the spaceView class include walls, conveyor belts, and checkpoints, to display them in the GUI.
+
+Walls Implementation:
+
+The drawWalls() method adds visual representations of walls to the board. Depending on the wall's heading (NORTH, SOUTH, EAST, WEST), a red line is drawn on the appropriate edge of the space and are added to the Pane.
+
+The drawFieldActions() method iterates through all field actions associated with a space and calls specific methods to draw its action.
+
+FieldAction Conveyor Belts:
+
+The drawConveyorBelt() method draws a gray arrow representing the conveyor belt, with its given heading. 
+
+FieldAction Checkpoints:
+
+A new CheckPoint class was created (similar to the conveyorBelt class) to represent checkpoints. Each checkpoint has a number associated with it.
+
+The drawCheckPoint() method in the spaceView class, draws a yellow circle in the center of the space to represent the checkpoint. The checkpoint number is displayed within the circle.
+
+The drawWalls() and drawFieldAction() are not in the updateView().
+The idea is that we only need to draw the walls and field actions once per game so
+that's why we drew them in the constructor of each spaceView object.
+This approach ensures that all board features (walls, conveyor belts, and checkpoints) are visually represented in the GUI.
 
 ## 4c Kasper
 ### Implementation
@@ -104,6 +148,19 @@ ______________________________________________________________________
 
 ## 4d Lauritz
 ### Implementation
+
+The task of pushing robots when a robot moves was implemented using a recursive method, moveToSpace(). This method ensures that if a robot encounters another robot in its path, it pushes the robot (and any others in front of it) forward, as long as space is available.
+
+The moveToSpace() method checks if the target space (space) already has a robot (pushed).
+If a robot is present, the method recursively attempts to move the pushed robot to the next space in the same heading.
+
+If the next space is unavailable, an ImpossibleMoveException is thrown, signaling the move is not possible.
+
+Once there are no robots in the target space, the pusher robot is placed in that space using pusher.setSpace(space).
+
+Error Handling:
+
+The move forward/fastforward and move backward methods uses a try/catch block to handle exceptions (ImpossibleMoveException) that may arise if a robot cannot be pushed further (due to walls).
 
 For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
 
