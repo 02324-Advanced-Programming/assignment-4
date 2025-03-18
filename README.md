@@ -1,17 +1,5 @@
 # Roborally
 
-# TODO
-
-
-# DELEGATIONS
-* Ben:  
-* Josh: 
-* Laxmanan:  
-* Rasmus:   
-* Kasper: 
-
-
-
     The functionality requested at each assignment should be present in the game as described in the statement of each assignment. In short:
         4a: move player to space by clicking, changing turns and counting moves shown in the status bar;
         4b: standard and advanced board generation at game start;
@@ -38,7 +26,7 @@
         For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
         If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
 
-## 4a Benjamin
+## 4a
 To complete Assignment 4a, we started by downloading the provided project (assignment4.zip) from DTU Learn and setting it up in IntelliJ. This involved extracting the ZIP file and opening the project using its pom.xml file to ensure Maven dependencies were properly configured. Additionally, we initialized a Git repository and pushed the project to a remote repository for version control and collaboration.
 
 Next we focused on understanding the project structure, the architecture and the core concepts and rules of RoboRally. 
@@ -75,8 +63,7 @@ We manually tested the implementation by running the game and ensuring:
 - The unit test passed successfully.
 
 
-## 4B Rasmus
-### Implementation
+## 4B 
 In this solution, we implemented the BoardFactory class to support multiple boards for the RoboRally game.
 
 The primary goal for the BoardFactory was to implement two methods:
@@ -127,12 +114,9 @@ The idea is that we only need to draw the walls and field actions once per game 
 that's why we drew them in the constructor of each spaceView object.
 This approach ensures that all board features (walls, conveyor belts, and checkpoints) are visually represented in the GUI.
 
-## 4c Kasper
-### Implementation
-____________________________
-
-Overall - in the broader perspective - this assignment 4c regards how a robot is moved by a GameController; 
-especially in accordance with other robots, walls, and conveyor-belts, as they all have implications on the further movement of the robot.
+## 4c
+Overall - in the broader perspective - this assignment 4c regards how a robot is moved by a GameController, especially in accordance with other robots, walls, and conveyor-belts;
+they all have implications on the further movement of the robot.
 The GameController handles most of the coordination and controls between the parts.
 
 This task 4c has two different overall features:
@@ -174,11 +158,9 @@ A quick note is that the `notImplemented()`-functions have been replaced by the 
 We have replaced the `notImplemented()`-function with the `setOnAction`-eventHandler-functions.
 This is given the parameters `finishProgrammingPhase()`, `executePrograms()`, and `executeStep()`, which guarantees that all the functionality is fully compatible with our overall design.   
 
-______________________________________________________________________
 
-## 4d Lauritz
-### Implementation
-
+## 4d
+#### Implementation
 The task of pushing robots when a robot moves is implemented using the recursive method `moveToSpace()`. This method ensures that if a robot encounters another robot in its path, it pushes the robot (and any others in front of it) forward, as long as space is available.
 
 The `moveToSpace()` method works as follows:
@@ -225,9 +207,8 @@ The `executeCommand()` method in the GameController class is responsible for exe
 
 The move forward/fastforward and move backward methods uses a try/catch block to handle exceptions (ImpossibleMoveException) that may arise if a robot cannot be pushed further (due to walls).
 
-## 4e Josh
-### Implementation
-### Winning the game 
+## 4e
+#### Winning the game 
 The Checkpoint class (Controller) contains the main logic, ensuring players pass through checkpoints in the correct order and awarding points when appropriate. Upon reaching the final checkpoint, the game transitions to the winner phase. In the Board class (model), we implemented the logic to generate the string that announces the winner. Additionally, in the GameController class, within the `executeNextStep()` method, a check is performed to see if the phase has shifted to `WINNER`. If so, a popup displaying the wonMessage is shown, signaling the end of the game.
 
 #### Interactive command cards.
@@ -242,88 +223,6 @@ The Checkpoint class (Controller) contains the main logic, ensuring players pass
   * If the number of steps is less than the total number of card registers, we are still inside a round, so all players must have their turn to execute their remaining registers
   * else if the number of steps is greater than the number of card registers, the round is over, so we go back to the programming phase to start a new round 
 
-### Feature: Wrap-wround out-of-bounds position
+#### Feature: Wrap-wround out-of-bounds position
 If the player moves of the board, the player's position wraps around to the other side.
 
-### Extra functionality
-If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
-
-# GIT COMMANDS 
-* first make sure you are in the correct folder on your local device (do not put the < > when running commands)
-```bash 
-cd </path/to/your/folder>
-````
-### Pull (Download changes from remote repo):
-
-
-```bash
-git pull 
-```
-* if the above command doesn't work it is usually bc your local branch is not configured properly
-* first way to solve this issue is to specify which branch to pull from. 
-* If you do this then you have to specify the name of branch every time you pull: 
-```bash 
-git pull origin <branch-name you want to pull from>
-```
-
-* alternatively, 
-```bash 
-* git branch --set-upstream-to=origin/<branch name>
-```
-* if you do this then from now on you only need to run "git pull" without having to specify the branch name 
-
-
-* after pulling, resolve any merge conflicts 
-
-### Branches :
-* see what branch you are currently on 
-```bash
-git branch
-```
-* to create a new branch:
-```bash 
-  git checkout -b <branch name> 
-```
-* to switch to a new branch : 
-```bash 
-git checkout <branch name>
-```
-
-### PUSH
-* You need to be on the branch where you've made changes and want to push to . 
-* check which branch you're currently on (git branch)
-* once on desired branch
-* First, ADD your changes 
-```bash
-git add . 
-```
-* Second, commit 
-```bash
-git commit -m "commit message"
-```
-* Third, push to the branch of your choice 
-```bash
-git push origin <name of branch you want to push to>
-```
-
-## Extra 
-* if you know you will keep pushing to the same branch in future (after adding and committing) 
-```bash
-git push -u origin <branch name>
-```
-* now when you want to push to the same remote branch again, you can just run
-```bash
-git push
-```
-* instead of having to write the -u origin etc 
-
-### more stuff 
-* if you have messed up your cloning with the wrong url or something you can reset the origin
-```bash 
-git remote set-url origin <repo url>
-```
-
-* *How to add a new origin
-``` bash
-git remote add origin <repo url>
-```
