@@ -79,3 +79,5 @@ git remote set-url origin <repo url>
 ``` bash
 git remote add origin <repo url>
 ```
+### Feature: Wrap-around of the player's position
+If a player goes past the edge, the player's position wraps around to the other side of the board.
