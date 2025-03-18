@@ -136,28 +136,33 @@ they all have implications on the further movement of the robot.
 The GameController handles most of the coordination and controls between the parts.
 
 This task 4c has two different overall features:
-(1) Stepwise movement and checking for an occupied space via the getNeighbour-function, and
+(1) Stepwise movement and checking for an occupied space via the `getNeighbour`-function, and
 (2) pre-programmed movement using the commmandCards found in the bottom of the game-GUI.
 A further detail is that the pre-programmed movement builds upon the stepwise-movement, which will be presented first.
 
-Before the robot moves to a field, we check - via the getNeighbour(space, heading) function - that the neighbouring field (the one referenced from the space-param) is empty, and there is no wall between the starting and end spaces, and that the neighbouring field - from its own perspective - has no wall either; because then, our robot can move to that field/space.
+(1) Stepwise movement - and checking for `getNeighbour()` spaces: 
+Before the robot moves to a field, we check - via the `getNeighbour(space, heading)` function - that the neighbouring field (the one referenced from the space-param) is empty, and there is no wall between the starting and end spaces, and that the neighbouring field - from its own perspective - has no wall either; because then, our robot can move to that field/space.
 If it is possible (i.e. if the pointer to the field is null/empty), the card/action is executed, and the robot moves to that field.
 To rotate the robot, if necessary, we use the next() and prev() functions;
 these simply change the textual property of our robot, so that the board and GUI can orient the robot according to its heading.
 This again ensures that if a card is picked up - with the text e.g. turn left, turn right, or do a u-turn - then we simple change this heading using the appropriate function.
 
+(2) The automation of the robot movements:
 Now, we are ready to proceed into the more automated part of these robot movements.
 To make the robot go by itself, we handle its movements in 3 separate stages - "Finish programming", "Execute program", and lastly "Execute Current Register" - that each ensure a correct execution.
 
 When the user drags the randomly-generated cards from the bottom of the screen to the playing-cards-fields just above the fields, from which we drew the cards, this will dictate the behaviour of the robot’s next movements; i.e. when we click the “Finish programming”-button.
-This specific functionality is handled in the
-Some of the most important parts of this interactive addition to the game, is that we have these 3 buttons for action for when the player has their turn - then, the card-actions will be executed in order, as the game is in stepmode, meaning that it will keep executing the cards, step-by-step until done.
-These 3 action-buttons are implemented through eventHandlers on each button (via the setOnAction), which ensures to then notify (and also calling the functions in) the game-controller-class  via the `StartProgrammingPhase()`, `executePrograms()`, and `executeStep()`; the implementations for each of them are found in the game-controller-class.
-The `exeutePrograms()` and `executeStep()` are used to implement that the playing-cards - all of them - will be executed on the robot - now that the stepmode is enabled; thus, all playing-cards are executed in order, and then it will be the next player’s cards to be taken into action after that.
+This specific functionality is handled in the PlayerView's finishButton.seOnAction(), which notifies the GameController to save the cards to be executed upon. 
+So, these 3 buttons will aid in notifying the GameController for when the player has their turn - then, the card-actions will be executed in order, while the game is in stepmode, meaning that it will keep executing the cards, step-by-step until done.
 
-Also, it should be noted that the functions `next()` and `prev()` are direction-oriented; they are some abbr. for nextHeading and prevHeading - they shift to the next or prev enum-heading, we shift our direction.
+When the executeButton is clicked, the GameController's `exeutePrograms()` will execute and follow-through all the cards that were set-up prior to finishing the programming, i.e. during the `programming`-phase, proceeding onward to the `activation`-phase. 
+Here, as previously mentioned, all the enqueued cards are executed until no more are left. 
 
-A quick note is that the notImplemented()-functions have been replaced by the eventhandler-functions; so, not implemented is officially deprecated and being get rid of…
+Alternatively - if the user only wishes to play a single command-card from the queue, the user simply clicks the stepButton, which - again, via the PlayerView's setOnAction-handler - makes the GameController run its `executeStep()`-function. 
+The `executeStep()`-function ensures that the user can follow along - stepwise, as the board is set in stepMode via the `board.setStepMode(true)` - as the game executes each step separately on the user's request and demand.
+
+A quick note is that the `notImplemented()`-functions have been replaced by the eventhandler-functions; so, not implemented is officially deprecated and being get rid of…
+We have replaced the `notImplemented()`-function with the `setOnAction`-eventHandler-functions with the parameters `finishProgrammingPhase()`, `executePrograms()`, and `executeStep()`, which guarantees that all the functionality is fully compatible with our overall design.   
 
 ______________________________________________________________________
 
