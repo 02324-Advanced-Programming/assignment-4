@@ -1,31 +1,5 @@
 # Roborally
 
-    The functionality requested at each assignment should be present in the game as described in the statement of each assignment. In short:
-        4a: move player to space by clicking, changing turns and counting moves shown in the status bar;
-        4b: standard and advanced board generation at game start;
-        4c: executing commands cards and programs, including two new command cards;
-        4d: field actions and player pushing;
-        4e: winning the game and interactive command cards.
-    No exceptions should appear in the console at any point (test test test!)
-    All tests must be passing, including the additional tests you have implemented. In detail:
-        there should be tests for the functionality added in classes of the model and controller packages to do the assignments;
-        you should have 100% coverage of code in the GameController class, excluding only assert false statements and eventual dead code;
-        you should have 100% coverage of the doAction() methods of the ConveyorBelt and CheckPoint classes, and any other class implemented by you that extends FieldAction;
-        all tests mentioned above should pass without errors.
-
-    You must provide JavaDoc comments in:
-        all methods and classes implemented by you, e.g. the CheckPoint class and the moveForward() method;
-        all methods and classes where you wrote code in, e.g. the PlayerView class and the executeNextStep() method.
-
-
-
-
-
-    Write a README.txt (or .md or .pdf) file and add it at top level inside the roborally/ directory.
-        Structure the file per assignment, making one section for assignment 4a, another for assignment 4b, etc.
-        For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
-        If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
-
 ## 4a
 To complete Assignment 4a, we started by downloading the provided project (assignment4.zip) from DTU Learn and setting it up in IntelliJ. This involved extracting the ZIP file and opening the project using its pom.xml file to ensure Maven dependencies were properly configured. Additionally, we initialized a Git repository and pushed the project to a remote repository for version control and collaboration.
 
@@ -66,53 +40,37 @@ We manually tested the implementation by running the game and ensuring:
 ## 4B 
 In this solution, we implemented the BoardFactory class to support multiple boards for the RoboRally game.
 
-The primary goal for the BoardFactory was to implement two methods:
+#### The primary goal for the BoardFactory was to implement two methods:
+- `getBoardNames()`: This method provides a list of all available board names as strings. It will be used in the app to display the list of options to the user when starting a new game.
+- `createBoard(String name)`: This method creates a new board based on the provided name. It retrieves the corresponding creation function from the internal map (boardCreators) and uses it to create the desired board. If the name is not recognized, the method throws an exception to handle invalid inputs. 
+- The following subsections describe how we achieved this functionality
 
-`getBoardNames()`: This method provides a list of all available board names as strings. It will be used in the app to display the list of options to the user when starting a new game.
+#### Board Management with a Map:
+- The `boardCreators` map is used to register and manage board creation functions. Each board name is associated with its respective creation.
+- This setup makes it easy to add new boards in the future. New board types can be registered using the `registerBoard()` method, where the name and creation function are mapped together.
 
-`createBoard(String name)`: This method creates a new board based on the provided name. It retrieves the corresponding creation function from the internal map (boardCreators) and uses it to create the desired board. If the name is not recognized, the method throws an exception to handle invalid inputs.
+#### Boards:
+- In the private constructor of the `BoardFactory`, predefined boards are registered using `registerBoard()`. Each type is linked to its corresponding creation function, such as createDefaultBoard or createAdvancedBoard.
 
-To achieve this functionality:
-
-Board Management with a Map:
-
-The `boardCreators` map is used to register and manage board creation functions. Each board name is associated with its respective creation.
-
-This setup makes it easy to add new boards in the future. New board types can be registered using the `registerBoard()` method, where the name and creation function are mapped together.
-
-Boards:
-
-In the private constructor of the `BoardFactory`, predefined boards are registered using `registerBoard()`. Each type is linked to its corresponding creation function, such as createDefaultBoard or createAdvancedBoard.
-
-Finally, the `BoardFactory` is integrated into the AppController. In the `newGame()` method:
-
-A choice dialog is displayed to the user, showing the list of available board names provided by getBoardNames().
-
-The user's selection is passed to `createBoard(String name)` to create the corresponding board.
-The new game is then started on the created board.
+#### Finally, the `BoardFactory` is integrated into the AppController. In the `newGame()` method:
+- A choice dialog is displayed to the user, showing the list of available board names provided by getBoardNames().
+- The user's selection is passed to `createBoard(String name)` to create the corresponding board.
+- The new game is then started on the created board.
 
 To complete the second part of the task, the game board was updated to have the spaceView class include walls, conveyor belts, and checkpoints, to display them in the GUI.
 
-Walls Implementation:
+#### Walls Implementation:
+- The `drawWalls()` method adds visual representations of walls to the board. Depending on the wall's heading (`NORTH`, `SOUTH`, `EAST`, `WEST`), a red line is drawn on the appropriate edge of the space and are added to the Pane.
+- The `drawFieldActions()` method iterates through all field actions associated with a space and calls specific methods to draw its action.
+- FieldAction Conveyor Belts:
+- The `drawConveyorBelt()` method draws a gray arrow representing the conveyor belt, with its given heading. 
 
-The `drawWalls()` method adds visual representations of walls to the board. Depending on the wall's heading (`NORTH`, `SOUTH`, `EAST`, `WEST`), a red line is drawn on the appropriate edge of the space and are added to the Pane.
-
-The `drawFieldActions()` method iterates through all field actions associated with a space and calls specific methods to draw its action.
-
-FieldAction Conveyor Belts:
-
-The `drawConveyorBelt()` method draws a gray arrow representing the conveyor belt, with its given heading. 
-
-FieldAction Checkpoints:
-
-A new `CheckPoint` class was created (similar to the `conveyorBelt` class) to represent checkpoints. Each checkpoint has a number associated with it.
-
-The `drawCheckPoint()` method in the spaceView class, draws a yellow circle in the center of the space to represent the checkpoint. The checkpoint number is displayed within the circle.
-
-The `drawWalls()` and `drawFieldAction()` are not in the `updateView()`.
-The idea is that we only need to draw the walls and field actions once per game so
-that's why we drew them in the constructor of each spaceView object.
-This approach ensures that all board features (walls, conveyor belts, and checkpoints) are visually represented in the GUI.
+#### FieldAction Checkpoints:
+- A new `CheckPoint` class was created (similar to the `conveyorBelt` class) to represent checkpoints. Each checkpoint has a number associated with it.
+- The `drawCheckPoint()` method in the spaceView class, draws a yellow circle in the center of the space to represent the checkpoint. The checkpoint number is displayed within the circle.
+- The `drawWalls()` and `drawFieldAction()` are not in the `updateView()`.
+- The idea is that we only need to draw the walls and field actions once per game so that's why we drew them in the constructor of each spaceView object.
+- This approach ensures that all board features (walls, conveyor belts, and checkpoints) are visually represented in the GUI.
 
 ## 4c
 Overall - in the broader perspective - this assignment 4c regards how a robot is moved by a GameController, especially in accordance with other robots, walls, and conveyor-belts;
