@@ -130,13 +130,26 @@ This approach ensures that all board features (walls, conveyor belts, and checkp
 ## 4c Kasper
 ### Implementation
 ____________________________
-Overall - in the broader perspective - this assignment 4c regards how a robot moves, especially in accordance with other robots, walls, and conveyor-belts; further movement.
-The Gamecontroller handles most of the coordination and controls between the parts.
+Overall - in the broader perspective - this assignment 4c regards how a robot is moved by a GameController, especially in accordance with other robots, walls, and conveyor-belts; 
+they all have implications on the further movement of the robot.
+The GameController handles most of the coordination and controls between the parts.
 
-So, before the robot moves to a field, we check - via the getNeighbour(space, heading) function - that the neighbouring field (the one referenced from the space-param) is both empty, and there is no wall between the two fields, and that the neighbouring field - from its own perspective - has no wall either; because then, our robot can move to that field/space.
+This task 4c has two different overall features: 
+(1) Stepwise movement and checking for an occupied space via the getNeighbour-function, and 
+(2) pre-programmed movement using the commmandCards found in the bottom of the game-GUI.
+A further detail is that the pre-programmed movement builds upon the stepwise-movement, which will be presented first. 
 
-The other part of the movement regards how we can pre-program the robot movement.
-We do so, by dragging the randomly-generated cards from the bottom of the screen, to the playing-cards-fields just above the fields from which we drew the cards, will dictate the behaviour of the robot’s next movements; i.e. when we click the “Finish programming”-butt.
+Before the robot moves to a field, we check - via the getNeighbour(space, heading) function - that the neighbouring field (the one referenced from the space-param) is empty, and there is no wall between the starting and end spaces, and that the neighbouring field - from its own perspective - has no wall either; because then, our robot can move to that field/space.
+If it is possible (i.e. if the pointer to the field is null/empty), the card/action is executed, and the robot moves to that field. 
+To rotate the robot, if necessary, we use the next() and prev() functions; 
+these simply change the textual property of our robot, so that the board and GUI can orient the robot according to its heading. 
+This again ensures that if a card is picked up - with the text e.g. turn left, turn right, or do a u-turn - then we simple change this heading using the appropriate function. 
+
+Now, we are ready to proceed into the more automated part of these robot movements. 
+To make the robot go by itself, we handle its movements in 3 separate stages - "Finish programming", "Execute program", and lastly "Execute Current Register" - that each ensure a correct execution. 
+
+When the user drags the randomly-generated cards from the bottom of the screen to the playing-cards-fields just above the fields, from which we drew the cards, this will dictate the behaviour of the robot’s next movements; i.e. when we click the “Finish programming”-button. 
+This specific functionality is handled in the 
 Some of the most important parts of this interactive addition to the game, is that we have these 3 buttons for action for when the player has their turn - then, the card-actions will be executed in order, as the game is in stepmode, meaning that it will keep executing the cards, step-by-step until done.
 These 3 action-buttons are implemented through eventHandlers on each button (via the setOnAction), which ensures to then notify (and also calling the functions in) the game-controller-class  via the StartProgrammingPhase(), executePrograms(), and executeStep(); the implementations for each of them are found in the game-controller-class.
 The exeutePrograms() and executeStep() are used to implement that the playing-cards - all of them - will be executed on the robot - now that the stepmode is enabled; thus, all playing-cards are executed in order, and then it will be the next player’s cards to be taken into action after that.
@@ -215,7 +228,7 @@ And add JavaDoc to everything
  */
 public static string myFunction(String pram) {
  return "This is the pram:" + pram;
-}
+}sssss
 ```
 
 # DONE
