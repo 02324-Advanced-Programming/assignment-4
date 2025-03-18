@@ -188,7 +188,8 @@ The Checkpoint class (Controller) contains the main logic, ensuring players pass
 ### Extra functionality
 If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
 
-
+### Feature: Wrap-wround out-of-bounds position
+If the player moves of the board, the player's position wraps around to the other side.
 Tasks for 4c:
 * implement the four existing commands in the corresponding 
 methods in class  GameController (according to the rules provided during class)
