@@ -81,48 +81,48 @@ In this solution, we implemented the BoardFactory class to support multiple boar
 
 The primary goal for the BoardFactory was to implement two methods:
 
-getBoardNames(): This method provides a list of all available board names as strings. It will be used in the app to display the list of options to the user when starting a new game.
+`getBoardNames()`: This method provides a list of all available board names as strings. It will be used in the app to display the list of options to the user when starting a new game.
 
-createBoard(String name): This method creates a new board based on the provided name. It retrieves the corresponding creation function from the internal map (boardCreators) and uses it to create the desired board. If the name is not recognized, the method throws an exception to handle invalid inputs.
+`createBoard(String name)`: This method creates a new board based on the provided name. It retrieves the corresponding creation function from the internal map (boardCreators) and uses it to create the desired board. If the name is not recognized, the method throws an exception to handle invalid inputs.
 
 To achieve this functionality:
 
 Board Management with a Map:
 
-The boardCreators map is used to register and manage board creation functions. Each board name is associated with its respective creation.
+The `boardCreators` map is used to register and manage board creation functions. Each board name is associated with its respective creation.
 
-This setup makes it easy to add new boards in the future. New board types can be registered using the registerBoard() method, where the name and creation function are mapped together.
+This setup makes it easy to add new boards in the future. New board types can be registered using the `registerBoard()` method, where the name and creation function are mapped together.
 
 Boards:
 
-In the private constructor of the BoardFactory, predefined boards are registered using registerBoard(). Each type is linked to its corresponding creation function, such as createDefaultBoard or createAdvancedBoard.
+In the private constructor of the `BoardFactory`, predefined boards are registered using `registerBoard()`. Each type is linked to its corresponding creation function, such as createDefaultBoard or createAdvancedBoard.
 
-Finally, the BoardFactory is integrated into the AppController. In the newGame() method:
+Finally, the `BoardFactory` is integrated into the AppController. In the `newGame()` method:
 
 A choice dialog is displayed to the user, showing the list of available board names provided by getBoardNames().
 
-The user's selection is passed to createBoard(String name) to create the corresponding board.
+The user's selection is passed to `createBoard(String name)` to create the corresponding board.
 The new game is then started on the created board.
 
 To complete the second part of the task, the game board was updated to have the spaceView class include walls, conveyor belts, and checkpoints, to display them in the GUI.
 
 Walls Implementation:
 
-The drawWalls() method adds visual representations of walls to the board. Depending on the wall's heading (NORTH, SOUTH, EAST, WEST), a red line is drawn on the appropriate edge of the space and are added to the Pane.
+The `drawWalls()` method adds visual representations of walls to the board. Depending on the wall's heading (`NORTH`, `SOUTH`, `EAST`, `WEST`), a red line is drawn on the appropriate edge of the space and are added to the Pane.
 
-The drawFieldActions() method iterates through all field actions associated with a space and calls specific methods to draw its action.
+The `drawFieldActions()` method iterates through all field actions associated with a space and calls specific methods to draw its action.
 
 FieldAction Conveyor Belts:
 
-The drawConveyorBelt() method draws a gray arrow representing the conveyor belt, with its given heading. 
+The `drawConveyorBelt()` method draws a gray arrow representing the conveyor belt, with its given heading. 
 
 FieldAction Checkpoints:
 
-A new CheckPoint class was created (similar to the conveyorBelt class) to represent checkpoints. Each checkpoint has a number associated with it.
+A new `CheckPoint` class was created (similar to the `conveyorBelt` class) to represent checkpoints. Each checkpoint has a number associated with it.
 
-The drawCheckPoint() method in the spaceView class, draws a yellow circle in the center of the space to represent the checkpoint. The checkpoint number is displayed within the circle.
+The `drawCheckPoint()` method in the spaceView class, draws a yellow circle in the center of the space to represent the checkpoint. The checkpoint number is displayed within the circle.
 
-The drawWalls() and drawFieldAction() are not in the updateView().
+The `drawWalls()` and `drawFieldAction()` are not in the `updateView()`.
 The idea is that we only need to draw the walls and field actions once per game so
 that's why we drew them in the constructor of each spaceView object.
 This approach ensures that all board features (walls, conveyor belts, and checkpoints) are visually represented in the GUI.
@@ -138,10 +138,10 @@ So, before the robot moves to a field, we check - via the getNeighbour(space, he
 The other part of the movement regards how we can pre-program the robot movement.
 We do so, by dragging the randomly-generated cards from the bottom of the screen, to the playing-cards-fields just above the fields from which we drew the cards, will dictate the behaviour of the robot’s next movements; i.e. when we click the “Finish programming”-butt.
 Some of the most important parts of this interactive addition to the game, is that we have these 3 buttons for action for when the player has their turn - then, the card-actions will be executed in order, as the game is in stepmode, meaning that it will keep executing the cards, step-by-step until done.
-These 3 action-buttons are implemented through eventHandlers on each button (via the setOnAction), which ensures to then notify (and also calling the functions in) the game-controller-class  via the StartProgrammingPhase(), executePrograms(), and executeStep(); the implementations for each of them are found in the game-controller-class.
-The exeutePrograms() and executeStep() are used to implement that the playing-cards - all of them - will be executed on the robot - now that the stepmode is enabled; thus, all playing-cards are executed in order, and then it will be the next player’s cards to be taken into action after that.
+These 3 action-buttons are implemented through eventHandlers on each button (via the setOnAction), which ensures to then notify (and also calling the functions in) the game-controller-class  via the `StartProgrammingPhase()`, `executePrograms()`, and `executeStep()`; the implementations for each of them are found in the game-controller-class.
+The `exeutePrograms()` and `executeStep()` are used to implement that the playing-cards - all of them - will be executed on the robot - now that the stepmode is enabled; thus, all playing-cards are executed in order, and then it will be the next player’s cards to be taken into action after that.
 
-Also, it should be noted that the functions next() and prev() are direction-oriented; they are some abbr. for nextHeading and prevHeading - they shift to the next or prev enum-heading, we shift our direction.
+Also, it should be noted that the functions `next()` and `prev()` are direction-oriented; they are some abbr. for nextHeading and prevHeading - they shift to the next or prev enum-heading, we shift our direction.
 
 A quick note is that the notImplemented()-functions have been replaced by the eventhandler-functions; so, not implemented is officially deprecated and being get rid of…
 ______________________________________________________________________
@@ -149,33 +149,60 @@ ______________________________________________________________________
 ## 4d Lauritz
 ### Implementation
 
-The task of pushing robots when a robot moves was implemented using a recursive method, moveToSpace(). This method ensures that if a robot encounters another robot in its path, it pushes the robot (and any others in front of it) forward, as long as space is available.
+The task of pushing robots when a robot moves is implemented using the recursive method `moveToSpace()`. This method ensures that if a robot encounters another robot in its path, it pushes the robot (and any others in front of it) forward, as long as space is available.
 
-The moveToSpace() method checks if the target space (space) already has a robot (pushed).
-If a robot is present, the method recursively attempts to move the pushed robot to the next space in the same heading.
+The `moveToSpace()` method works as follows:
+* It checks if the target space already has a robot.
+* If a robot is present, the method recursively attempts to move the pushed robot to the next space in the same heading.
+* If the next space is unavailable, an `ImpossibleMoveException` is thrown, indicating the move is not possible.
+* Once there are no robots in the target space, the pusher robot is placed in that space using `pusher.setSpace(space)`.
 
-If the next space is unavailable, an ImpossibleMoveException is thrown, signaling the move is not possible.
+The `executeNextStep()` method is a crucial part of the game logic in the game. It handles the execution of command cards for the current player, manages the transition between players, and ensures that field actions are executed at the correct times.
+1. Command Card Execution:
+   * The method starts by checking if the game is in the `ACTIVATION` phase and if there is a current player.
+   * It retrieves the current step and the command card for the current player.
+   * If the command card is `LEFT_OR_RIGHT`, the game phase is set to `PLAYER_INTERACTION`, and the method returns to wait for player input.
+   * Otherwise, the command is executed using the `executeCommand()` method.
+2. Player Transition:
+   * After executing the command, the method checks if there are more players to execute the current step.
+   * If there are more players, it sets the next player as the current player.
+   * If all players have executed the current step, it proceeds to execute field actions.
+3. Field Actions:
+   * The `executeFieldActions()` method is called to handle any actions associated with the spaces on the board.
+   * This ensures that field actions are executed after all players have completed their commands for the current step.
+4. Phase Transition:
+   * After executing field actions, the method checks if the game phase has changed to `WINNER`.
+   * If the game phase is `WINNER`, a popup is displayed with the winning message.
+   * If the game phase is still `ACTIVATION`, the method increments the step and makes the program fields visible for the next step.
+   * If all steps have been executed, the game transitions back to the `PROGRAMMING` phase.
 
-Once there are no robots in the target space, the pusher robot is placed in that space using pusher.setSpace(space).
+The `executeCommand()` method in the GameController class is responsible for executing a specific command for a given player. This method takes two parameters: a Player object and a Command object. The method checks if the player is on the current board and if the command is not null. Depending on the command, it calls the appropriate method to perform the action.
 
-Error Handling:
+1. Check Player and Command:
+   * Ensure the player is on the current board and the command is not null.
+2. Switch Statement:
+   * Use a switch statement to determine which command to execute.
+3. Execute Command: 
+   * Call the corresponding method for each command: 
+     * `FORWARD`: Calls `moveForward(player)`. 
+     * `RIGHT`: Calls `turnRight(player)`.
+     * `LEFT`: Calls `turnLeft(player)`. 
+     * `FAST_FORWARD`: Calls `fastForward(player)`. 
+     * `UTURN`: Calls `uTurn(player)`. 
+     * `BACKWARD`: Calls `moveBackward(player)`.
+
+#### Error Handling:
 
 The move forward/fastforward and move backward methods uses a try/catch block to handle exceptions (ImpossibleMoveException) that may arise if a robot cannot be pushed further (due to walls).
-
-For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
-
-### Extra functionality
-If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
-
 
 ## 4e Josh
 ### Implementation
 ### Winning the game 
-The Checkpoint class (Controller) contains the main logic, ensuring players pass through checkpoints in the correct order and awarding points when appropriate. Upon reaching the final checkpoint, the game transitions to the winner phase. In the Board class (model), we implemented the logic to generate the string that announces the winner. Additionally, in the GameController class, within the executeNextStep() method, a check is performed to see if the phase has shifted to WINNER. If so, a popup displaying the wonMessage is shown, signaling the end of the game.
+The Checkpoint class (Controller) contains the main logic, ensuring players pass through checkpoints in the correct order and awarding points when appropriate. Upon reaching the final checkpoint, the game transitions to the winner phase. In the Board class (model), we implemented the logic to generate the string that announces the winner. Additionally, in the GameController class, within the `executeNextStep()` method, a check is performed to see if the phase has shifted to `WINNER`. If so, a popup displaying the wonMessage is shown, signaling the end of the game.
 
 #### Interactive command cards.
 * Normal flow of the game must be interrupted when a Turn Right or Left command is executed 
-* To implement, we check the card type in exeucteNextStep() before executing the command.
+* To implement, we check the card type in `exeucteNextStep()` before executing the command.
 * If it is, we set the game phase to interactive mode, and notify the PlayerView to rebuild the buttons for UI
 * Once player clicks on a button, this calls a method to execute the command they wanted (either turn left or turn right)
   * We change the game state back to Activation, and must either allow all other players to continue their turn
@@ -190,43 +217,6 @@ If the player moves of the board, the player's position wraps around to the othe
 
 ### Extra functionality
 If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
-
-Tasks for 4c:
-* implement the four existing commands in the corresponding 
-methods in class  GameController (according to the rules provided during class)
-* the three buttons, “Finish Programming”, “Execute Programm” and “Execute Current Register”
-Associate these buttons, with the correct methods in the GameController. And then check whether the robots’ programs 
-are now correctly executed when these buttons are pressed.
-* write some tests for each command (for movement operations there also must be a test when there is a wall blocking the movement).
-* At last, add commands and their implementing methods for move “backwards” and “U turn”, add tests and JavaDocs. Check also manually, whether these new commands 
-work properly.
-
-And add JavaDoc to everything
-```java
-/**
- * This is a function that returns the param as a string.
- * @param pram any string
- * @return String with some text
- */
-public static string myFunction(String pram) {
- return "This is the pram:" + pram;
-}
-```
-
-# DONE
-* Implement `BoardFactory()`
-  * Provides a list of all available board names as Strings
-  * Creates a new board for such a name, which is given as a parameter
-  * Then start the game when a user have chosen what board
-* Implement UI to show the board elements like walls ie:
-* Make a new board layout - Lauritz is working on this one.
-  * Need to contain
-    * Walls
-    * conveyor belts facing different directions
-    * Checkpoints with their number
-* Create class checkpoint that extends FieldAction (look at walls and conveyor belts for help)
-* Implement `updateView()`
-
 
 # GIT COMMANDS 
 * first make sure you are in the correct folder on your local device (do not put the < > when running commands)
