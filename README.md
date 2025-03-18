@@ -131,38 +131,48 @@ This approach ensures that all board features (walls, conveyor belts, and checkp
 ### Implementation
 ____________________________
 
-Overall - in the broader perspective - this assignment 4c regards how a robot is moved by a GameController, especially in accordance with other robots, walls, and conveyor-belts;
-they all have implications on the further movement of the robot.
+Overall - in the broader perspective - this assignment 4c regards how a robot is moved by a GameController; 
+especially in accordance with other robots, walls, and conveyor-belts, as they all have implications on the further movement of the robot.
 The GameController handles most of the coordination and controls between the parts.
 
 This task 4c has two different overall features:
 (1) Stepwise movement and checking for an occupied space via the `getNeighbour`-function, and
-(2) pre-programmed movement using the commmandCards found in the bottom of the game-GUI.
+(2) pre-programmed movement using the commmand-cards found in the bottom of the game-GUI.
 A further detail is that the pre-programmed movement builds upon the stepwise-movement, which will be presented first.
 
 (1) Stepwise movement - and checking for `getNeighbour()` spaces: 
-Before the robot moves to a field, we check - via the `getNeighbour(space, heading)` function - that the neighbouring field (the one referenced from the space-param) is empty, and there is no wall between the starting and end spaces, and that the neighbouring field - from its own perspective - has no wall either; because then, our robot can move to that field/space.
-If it is possible (i.e. if the pointer to the field is null/empty), the card/action is executed, and the robot moves to that field.
+Before the robot moves to a field, we check the neighbour-space's emptiness via the `getNeighbour(space, heading)` function.
+Besides this, we check that there is no wall between the starting and its end spaces.
+
 To rotate the robot, if necessary, we use the next() and prev() functions;
-these simply change the textual property of our robot, so that the board and GUI can orient the robot according to its heading.
-This again ensures that if a card is picked up - with the text e.g. turn left, turn right, or do a u-turn - then we simple change this heading using the appropriate function.
+these simply change the textual property of our robot, so that the board and GUI can orient the robot according to its heading. 
 
 (2) The automation of the robot movements:
 Now, we are ready to proceed into the more automated part of these robot movements.
-To make the robot go by itself, we handle its movements in 3 separate stages - "Finish programming", "Execute program", and lastly "Execute Current Register" - that each ensure a correct execution.
+To make the robot go by itself, we handle its movements in 3 separate stages:
+* "Finish programming" 
+* "Execute program"
+* "Execute Current Register"
 
-When the user drags the randomly-generated cards from the bottom of the screen to the playing-cards-fields just above the fields, from which we drew the cards, this will dictate the behaviour of the robot’s next movements; i.e. when we click the “Finish programming”-button.
-This specific functionality is handled in the PlayerView's finishButton.seOnAction(), which notifies the GameController to save the cards to be executed upon. 
-So, these 3 buttons will aid in notifying the GameController for when the player has their turn - then, the card-actions will be executed in order, while the game is in stepmode, meaning that it will keep executing the cards, step-by-step until done.
+When the user drags the randomly-generated cards from the bottom of the screen to the playing-cards-fields just above the source-fields, this will dictate the behaviour of the robot’s next movements; 
+i.e. when the user clicks the “Finish programming”-button, the game progresses. 
+This specific functionality is handled in the PlayerView's `finishButton.seOnAction()`. 
+This notifies the GameController to save the cards to be executed upon.
+Then, the command-card will be executed in order, while the game is in stepmode. 
+This means that it will keep executing the remaining cards, step-by-step, until done.
 
-When the executeButton is clicked, the GameController's `exeutePrograms()` will execute and follow-through all the cards that were set-up prior to finishing the programming, i.e. during the `programming`-phase, proceeding onward to the `activation`-phase. 
+When the `executeButton` is clicked, the GameController's `exeutePrograms()` will be run and follow-through all the cards that were set-up during the `programming`-phase.
+Next follows the `activation`-phase where the card-actions are run inside the game.  
 Here, as previously mentioned, all the enqueued cards are executed until no more are left. 
 
-Alternatively - if the user only wishes to play a single command-card from the queue, the user simply clicks the stepButton, which - again, via the PlayerView's setOnAction-handler - makes the GameController run its `executeStep()`-function. 
-The `executeStep()`-function ensures that the user can follow along - stepwise, as the board is set in stepMode via the `board.setStepMode(true)` - as the game executes each step separately on the user's request and demand.
+Alternatively - if the user only wishes to play a single command-card from the queue, the user simply clicks the `stepButton`.
+This will make the GameController run its `executeStep()`-function. 
+The `executeStep()`-function ensures that the user can follow along - stepwise, as the board is set in stepMode via the `board.setStepMode(true)`. 
+Here, the game executes each step separately on the user's request and demand.
 
 A quick note is that the `notImplemented()`-functions have been replaced by the eventhandler-functions; so, not implemented is officially deprecated and being get rid of…
-We have replaced the `notImplemented()`-function with the `setOnAction`-eventHandler-functions with the parameters `finishProgrammingPhase()`, `executePrograms()`, and `executeStep()`, which guarantees that all the functionality is fully compatible with our overall design.   
+We have replaced the `notImplemented()`-function with the `setOnAction`-eventHandler-functions.
+This is given the parameters `finishProgrammingPhase()`, `executePrograms()`, and `executeStep()`, which guarantees that all the functionality is fully compatible with our overall design.   
 
 ______________________________________________________________________
 
