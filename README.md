@@ -162,7 +162,12 @@ Error Handling:
 
 The move forward/fastforward and move backward methods uses a try/catch block to handle exceptions (ImpossibleMoveException) that may arise if a robot cannot be pushed further (due to walls).
 
-For each assignment, briefly explain what did you do to implement your solutions. As a rule of thumb for the level of detail you should go into, the description for each assignment should be between half a page and one page (A4), written in Arial 10 with 2 cm margins on every side.
+#### Conveyerbelt
+The ConveyorBelt moves a player in the direction specified by its heading using the doAction method.
+It calculates the next space in the heading direction and moves the player there using gameController.moveToSpace().
+If no valid space exists in the direction, it throws an ImpossibleMoveException.
+
+
 
 ### Extra functionality
 If you have implemented any extra functionality over the basic requirements, e.g. special graphics, extra command cards, more field actions, etc., comment on these on an "Extras" subsection within the corresponding assignment section (for extras, go wild on details if you want).
