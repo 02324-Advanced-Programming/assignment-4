@@ -8,11 +8,9 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * A factory for creating boards. The factory itself is implemented as a singleton.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author s247273
  */
-// XXX A3: might be used for creating a first slightly more interesting board.
+
 public class BoardFactory {
 
     /**

@@ -55,8 +55,8 @@ public class ConveyorBelt extends FieldAction {
     }
 
     /**
-     * Logic for the conveyer belts.
-     * If player is facing same direction as belt, move them to the next space
+     *Executes the action of the conveyor belt.
+     * If player is on a conveyor belt, the player will be moved to the next space in the direction of the conveyor belt.
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
      * @return Whether the requested action was actually carried out.
@@ -64,12 +64,16 @@ public class ConveyorBelt extends FieldAction {
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) throws ImpossibleMoveException {
         Player player = space.getPlayer();
-        Space nextSpace = gameController.board.getNeighbour(space, heading);
-        if (nextSpace == null) {
-            throw new ImpossibleMoveException(player, null, player.getHeading());
+        Heading heading = getHeading();
+        try {
+            Space nextSpace = gameController.board.getNeighbour(space,heading);
+            if(nextSpace!=null){
+                gameController.moveToSpace(player, nextSpace, heading);
+            }
+            return true;
+        } catch (ImpossibleMoveException e){
+            return false;
         }
-        gameController.moveToSpace(player, nextSpace, heading);
-
-        return true;
     }
+
 }

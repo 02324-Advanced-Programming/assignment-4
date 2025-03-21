@@ -257,7 +257,6 @@ class BoardTest {
     //The testGetStatusMessage_notnull does not belong in these test-packages, as JUnit apparently
     // cannot test JavaFX-elements. In other words, should be tested elsewhere, and in a different way.
 
-
     //public int getCounter()
 
     //public void setCounter(int counter)
