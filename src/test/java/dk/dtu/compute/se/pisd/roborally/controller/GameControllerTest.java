@@ -4,8 +4,9 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class GameControllerTest {
     /**
@@ -276,4 +277,35 @@ class GameControllerTest {
         assertEquals(prev.next().next(), current.getHeading(), "Player's direction should be reversed.");
     }
 
-}
+    @Test
+    void test_moveToSpace () {
+
+        Board board = gameController.board;
+        Player player1 = new Player(board, "blue","player1");
+
+        Space tspace = new Space(board,2,5);
+        Heading theading = Heading.SOUTH;
+
+
+        Assertions.assertDoesNotThrow(() -> gameController.moveToSpace(player1, tspace, theading), "Could not move the player to the field.");
+    }
+
+    /*
+    @Test
+    void test_executeLeftOrRight () {
+
+        Board board = gameController.board;
+        Player player1 = new Player(board, "blue","player1");
+
+        Space tspace = new Space(board,2,5);
+        Heading theading = Heading.SOUTH;
+
+        player1.setSpace(tspace);
+        Command tcmd = Command.RIGHT;
+
+        gameController.executeLeftOrRight(tcmd);
+        gameController.executeStep();
+
+        int returnsRight = player1.getSpace().x;
+        Assertions.assertEquals(1, returnsRight,"Could not move the player to the field.");
+    }*/

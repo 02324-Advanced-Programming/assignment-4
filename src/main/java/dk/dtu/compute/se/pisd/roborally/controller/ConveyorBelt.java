@@ -38,11 +38,18 @@ public class ConveyorBelt extends FieldAction {
 
     private Heading heading;
 
+    /**
+     * Gets the direction of the conveyorBelt; i.e. which way it sends the player.
+     */
 
     public Heading getHeading() {
         return heading;
     }
 
+    /**
+     * Sets the heading of the conveyorBel.
+     * @param heading The enum to which is assigned a string of direction.
+     */
     public void setHeading(Heading heading) {
         this.heading = heading;
     }
@@ -52,7 +59,7 @@ public class ConveyorBelt extends FieldAction {
      * If player is on a conveyor belt, the player will be moved to the next space in the direction of the conveyor belt.
      * @param gameController the gameController of the respective game
      * @param space the space this action should be executed for
-     * @return returns a bool based on the action was success or not
+     * @return Whether the requested action was actually carried out.
      */
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) throws ImpossibleMoveException {

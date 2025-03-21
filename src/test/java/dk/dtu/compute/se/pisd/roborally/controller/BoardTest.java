@@ -253,28 +253,9 @@ class BoardTest {
 
     //public String getStatusMessage() {} - not done, throws errors when trying to assign
     //a gamecontroller to a boardview (fails on the boardview-init part).
-//    @SuppressWarnings("")
-//    @Test
-//
-//    void testGetStatusMessage_notnull() {
-//
-//        Board testBoard = setupBoard();
-//
-//        String errorMess_wrongRes = "Expected testboard to have first player";
-//
-//        Player testPlayer1 = new Player(testBoard,"blue","TP1");
-//        Player testPlayer2 = new Player(testBoard,"orange","TP2");
-//        testBoard.addPlayer(testPlayer1); testBoard.addPlayer(testPlayer2);
-//
-//        GameController gc = new GameController(testBoard);
-//        BoardView tbv = new BoardView(gc);
-//
-//        //String expectedStatus = "Just some stuff";
-//        //Label tLabel = new Label(expectedStatus);
-//        //tbv.getChildren().add(tLabel);
-//
-//        //Assertions.assertEquals(expectedStatus, testBoard.getStatusMessage(), errorMess_wrongRes);
-//    }
+
+    //The testGetStatusMessage_notnull does not belong in these test-packages, as JUnit apparently
+    // cannot test JavaFX-elements. In other words, should be tested elsewhere, and in a different way.
 
     //public int getCounter()
 
