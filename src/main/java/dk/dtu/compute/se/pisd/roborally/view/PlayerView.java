@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Command;
 import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -208,27 +209,32 @@ public class PlayerView extends Tab implements ViewObserver {
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                 }
-            } else {
+            } else {  // When in PLAYER_INTERACTION phase...
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
                     programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
                 }
                 playerInteractionPanel.getChildren().clear();
 
+                // Only the current player sees these interactive options.
                 if (player.board.getCurrentPlayer() == player) {
-                    // TODO V3: these buttons should be shown only when there is
-                    //      an interactive command card, and the buttons should represent
-                    //      the player's choices of the interactive command card. The
-                    //      following is just a mockup showing two options
-                    Button optionButton = new Button("Option1");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
+                    // Create a button for "Turn Left"
+                    Button leftButton = new Button("Turn Left");
+                    leftButton.setOnAction(e -> {
+                        gameController.executeLeftOrRight(Command.LEFT);
+                    });
 
-                    optionButton = new Button("Option 2");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
+                    leftButton.setDisable(false);
+                    playerInteractionPanel.getChildren().add(leftButton);
+
+                    // Create a button for "Turn Right"
+                    Button rightButton = new Button("Turn Right");
+                    rightButton.setOnAction(e -> {
+                        gameController.executeLeftOrRight(Command.RIGHT);
+                    });
+
+                    rightButton.setDisable(false);
+                    playerInteractionPanel.getChildren().add(rightButton);
                 }
             }
         } else if (subject == player) {

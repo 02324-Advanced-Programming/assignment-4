@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
@@ -127,7 +128,7 @@ public class GameController {
      *
      * @author s235444
      */
-    private void executeFieldActions() {
+    void executeFieldActions() {
         for (int x = 0; x < board.getPlayersNumber(); x++) {
             Player player = board.getPlayer(x);
             Space space = player.getSpace();
@@ -159,6 +160,8 @@ public class GameController {
         alert.setContentText(message);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.setAlwaysOnTop(true);
+        alert.setOnHidden(event -> Platform.exit());
+
         alert.showAndWait();
     }
 
@@ -168,13 +171,19 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
-    private void executeNextStep() {
+    void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
+
+                    if (card.command == Command.LEFT_OR_RIGHT) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        board.notifyChange();
+                        return;
+                    }
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
@@ -185,11 +194,10 @@ public class GameController {
 
                     executeFieldActions();
 
-                    if (board.getPhase() != Phase.ACTIVATION) {
-                        if (board.getPhase() == Phase.WINNER) {
-                            // get winner message should popup here.
-                            displayPopup(board.getWonMessage());
-                        }
+                    if (board.getPhase() != Phase.ACTIVATION && board.getPhase() == Phase.WINNER) {
+                        // get winner message should popup here.
+                        displayPopup(board.getWonMessage());
+
                         return;
                     }
 
@@ -213,11 +221,8 @@ public class GameController {
     }
 
     
-    private void executeCommand(@NotNull Player player, Command command) {
+    void executeCommand(@NotNull Player player, Command command) {
         if (player.board == board && command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
             switch (command) {
                 case FORWARD:
                     this.moveForward(player);
@@ -238,10 +243,57 @@ public class GameController {
                     this.moveBackward(player);
                     break;
                 default:
-                    // DO NOTHING (for now)
+
             }
         }
     }
+
+
+    /**
+     * method to turn right or left
+     * @param direction specifies the direction to turn
+     * s247273
+     */
+    public void executeLeftOrRight(Command direction) {
+        Player currentPlayer = board.getCurrentPlayer();
+
+        executeCommand(currentPlayer, direction);
+        board.setPhase(Phase.ACTIVATION);
+
+        advanceGameState();
+
+    }
+
+    /**
+     * Move to a player's turn or move a step forward in the game
+     * If more players who need to execute current step , move to next player's turn.
+     * If all players executed current step, move to the next step.
+     * If all steps executed, transition to programming phase.
+     * s247273
+     */
+    private void advanceGameState() {
+        Player currentPlayer = board.getCurrentPlayer();
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+
+        // check if more players need to execute current step
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            return;
+        }
+
+        int nextStep = board.getStep() + 1;
+        // check all steps have been executed
+        if (nextStep >= Player.NO_REGISTERS) {
+            startProgrammingPhase();
+            return;
+        }
+        makeProgramFieldsVisible(nextStep);
+        board.setStep(nextStep);
+        board.setCurrentPlayer(board.getPlayer(0));
+    }
+
+
+
 
     /**
      * Moves the player forward on the current board in the current direction. Will wrap around if the player is at the boundaries of the board.
@@ -352,13 +404,11 @@ public class GameController {
     public void moveToSpace(@NotNull Player pusher,
                             @NotNull Space space,
                             @NotNull Heading heading) throws ImpossibleMoveException {
-        //assert board.getNeighbour(pusher.getSpace(), heading) == space;
         Player pushed = space.getPlayer();
         if (pushed != null) {
             Space nextSpace = board.getNeighbour(space, heading);
             if (nextSpace != null) {
                 moveToSpace(pushed, nextSpace, heading);
-                // assert space.getPlayer() == null : "Space player wants ain't free";
             } else {
                 throw new ImpossibleMoveException(pusher, space, heading);
             }

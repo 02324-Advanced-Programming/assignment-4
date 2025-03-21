@@ -70,7 +70,7 @@ public abstract class Subject {
 	 * of this subject class whenever its state is changed (in a way
 	 * relevant for the observer).
 	 */
-	final protected void notifyChange() {
+	public final void notifyChange() {
 		for (Observer observer: observers) {
 			observer.update(this);
 		}

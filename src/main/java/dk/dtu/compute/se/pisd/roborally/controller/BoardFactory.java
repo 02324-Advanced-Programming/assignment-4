@@ -8,11 +8,9 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * A factory for creating boards. The factory itself is implemented as a singleton.
- *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author s247273
  */
-// XXX A3: might be used for creating a first slightly more interesting board.
+
 public class BoardFactory {
 
     /**
@@ -20,16 +18,10 @@ public class BoardFactory {
      */
     static private BoardFactory instance = null;
 
-    /**
-     * Constructor for BoardFactory. It is private in order to make the factory a singleton.
-     */
-//    private BoardFactory() {
-//    }
-
-    //the list of boards
-//    private final List<String> availableBoardNames = List.of("default", "advanced");
-
+    //A map of board creators, where the key is the name of the board and the value is a function that creates the board
     private final Map<String, Function<Board, Board>> boardCreators = new HashMap<>();
+
+    //If you want to create a new board, create your board function, then register it here with a name :
 
     private BoardFactory() {
         registerBoard("default", board -> createDefaultBoard(board));
@@ -56,10 +48,6 @@ public class BoardFactory {
         return instance;
     }
 
-    //might need to check something for null
-//    public List<String> getBoardNames() {
-//        return Collections.unmodifiableList(availableBoardNames);
-//    }
 
     /**
      * Creates a new board of given name of a board, which indicates
